@@ -30,7 +30,7 @@ function LoginForm() {
                 </header>
                 {/* Form goes here */}
                 <form>
-                    <div className="grid grid-cols-1 gap-3">
+                    <div className="grid grid-cols-1 gap-5">
                         <div>
                             <label htmlFor="email" className="mb-2 block text-sm font-medium text-slate-700">
                                 Email address
@@ -42,13 +42,36 @@ function LoginForm() {
                                 <label htmlFor="password" className="mb-2 block text-sm font-medium text-slate-700">
                                     Password
                                 </label>
-                                <input type="password" placeholder='••••••••' id="password" className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" />
+                                <div className="relative">
+                                    <input type={showPassword ? "text" : "password"} placeholder='••••••••' id="password" className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" />
+                                    <button type='button' onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 text-muted  -translate-y-1/2">
+                                        {showPassword ? "Hide" : "Show"}
+                                    </button>
+                                </div>
                             </div>
+                            <button type='button' className='text-sm font-medium text-blue-600 hover:underline'>
+                                Forgot Password?
+                            </button>
+                        </div>
+                        <div>
+                            <button type='submit' className='w-full rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 py-3 text-white font-semibold hover:opacity-90 transition duration-300'>
+                                Log in
+                            </button>
+                            <p className="mt-4 text-center text-sm text-slate-600">
+                                Don't have an account?{" "}
+                                <a
+                                    href="#"
+                                    className="font-bold text-blue-600 hover:underline"
+                                >
+                                    Sign up
+                                </a>
+                            </p>
                         </div>
                     </div>
                 </form>
-            </div>
-        </div>
+                {/* Divider */}
+            </div >
+        </div >
     )
 }
 
