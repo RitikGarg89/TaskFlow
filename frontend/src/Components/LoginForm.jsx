@@ -14,7 +14,7 @@ function LoginForm() {
     return (
         <div className="flex h-full w-[440px] items-center justify-center bg-page px-6 md:px-8">
             <div className="w-full max-w-md">
-                <header className="mb-6 text-center">
+                <header className="mb-3 text-center">
                     <div className="flex flex-row items-center justify-center mb-3">
                         <div className="mr-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-blue-700 text-3xl font-bold text-white shadow-xl shadow-blue-600/25">
                             ✓
@@ -70,6 +70,16 @@ function LoginForm() {
                     </div>
                 </form>
                 {/* Divider */}
+                <div className="relative my-6">
+                    <div className="absolute inset-0 flex items-center">
+                        <div className="w-full border-t border-slate-300" />
+                    </div>
+                    <div className="relative flex justify-center">
+                        <span className="bg-page  px-4 text-sm font-medium text-slate-600">
+                            OR
+                        </span>
+                    </div>
+                </div>
             </div >
         </div >
     )
