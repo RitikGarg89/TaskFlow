@@ -110,7 +110,7 @@ function Login() {
             </div>
 
             {/* Right Panel */}
-            <div className="w-full md:w-2/3 xl:w-1/2 bg-page">
+            <div className="w-full md:w-2/3 xl:w-1/2 bg-page flex items-center justify-center">
                 <LoginForm />
             </div>
         </div>
