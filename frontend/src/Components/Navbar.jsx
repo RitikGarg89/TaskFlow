@@ -1,9 +1,18 @@
 import { useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 
 function Navbar() {
     const user = true;
     const [profileOpen, setProfileOpen] = useState(false);
+
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        setProfileOpen(false);
+
+        // Later: dispatch your Redux logout action here.
+        navigate("/login");
+    };
     return (
         <header className='w-full h-20 px-16 py-2 bg-white flex items-center justify-between'>
             <div className="flex flex-row items-center justify-center">
@@ -138,7 +147,7 @@ function Navbar() {
                                     <polyline points="16 17 21 12 16 7" />
                                     <line x1="21" y1="12" x2="9" y2="12" />
                                 </svg>
-                                <NavLink to="/logout" className="text-xl text-red-600 font-semibold hover:text-primary-hover transition-all">Logout</NavLink>
+                                <button type='button' onClick={handleLogout} className="text-xl text-red-600 font-semibold hover:text-primary-hover transition-all">Logout</button>
                             </div>
                         </div>
                     </div>
