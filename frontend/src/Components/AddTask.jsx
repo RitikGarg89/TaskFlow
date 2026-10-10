@@ -1,6 +1,9 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function AddTask() {
+
+    const navigate = useNavigate();
 
     const priorities = [
         {
@@ -104,6 +107,8 @@ function AddTask() {
         };
 
         console.log(taskObj);
+
+        navigate('/')
     };
 
     return (
@@ -170,11 +175,18 @@ function AddTask() {
                     </div>
 
                     <div className="space-y-2">
-                        <label className="block text-sm font-semibold text-slate-700">
+                        <label
+                            id="priority-label"
+                            className="block text-sm font-semibold text-slate-700"
+                        >
                             Task Priority
                         </label>
 
-                        <div className="grid grid-cols-3 gap-3">
+                        <div
+                            role="group"
+                            aria-labelledby="priority-label"
+                            className="grid grid-cols-3 gap-3"
+                        >
                             {priorities.map((item) => {
                                 const isSelected = priority === item.value;
 
