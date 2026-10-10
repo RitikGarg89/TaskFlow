@@ -15,13 +15,37 @@ function Navbar() {
             <nav>
                 <ul className='flex flex-row items-center gap-10'>
                     <li>
-                        <NavLink to="/" className={`text-xl font-semibold hover:text-primary-hover transition-all ${({ isActive }) => isActive ? "text-primary" : "text-muted"}`}>Home</NavLink>
+                        <NavLink
+                            to="/"
+                            className={({ isActive }) =>
+                                `text-xl font-semibold transition-all ${isActive ? "text-primary" : "text-muted"
+                                } hover:text-primary-hover`
+                            }
+                        >
+                            Home
+                        </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/about" className={`text-xl font-semibold hover:text-primary-hover transition-all ${({ isActive }) => isActive ? "text-primary" : "text-muted"}`}>About</NavLink>
+                        <NavLink
+                            to="/about"
+                            className={({ isActive }) =>
+                                `text-xl font-semibold transition-all ${isActive ? "text-primary" : "text-muted"
+                                } hover:text-primary-hover`
+                            }
+                        >
+                            About
+                        </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/contact" className={`text-xl font-semibold hover:text-primary-hover transition-all ${({ isActive }) => isActive ? "text-primary" : "text-muted"}`}>Contact</NavLink>
+                        <NavLink
+                            to="/contact"
+                            className={({ isActive }) =>
+                                `text-xl font-semibold transition-all ${isActive ? "text-primary" : "text-muted"
+                                } hover:text-primary-hover`
+                            }
+                        >
+                            Contact
+                        </NavLink>
                     </li>
                 </ul>
             </nav>
