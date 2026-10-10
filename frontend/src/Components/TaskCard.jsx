@@ -2,8 +2,6 @@ import React from 'react'
 
 function TaskCard({ task }) {
 
-    const taskPriority = priority[task.priority] ?? priority.medium;
-    const taskStatus = status[task.status] ?? status.pending;
 
     const priority = {
         high: {
@@ -144,23 +142,31 @@ function TaskCard({ task }) {
         },
     };
 
-    const formattedDate = new Date(task.createdAt).toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-    });
+    const date = task.createdAt ? new Date(task.createdAt) : null;
+
+    const formattedDate =
+        date && !Number.isNaN(date.getTime())
+            ? date.toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+            })
+            : "No date";
+
+    const taskPriority = priority[task.priority] ?? priority.medium;
+    const taskStatus = status[task.status] ?? status.pending;
 
     return (
-        <div className={`max-w-sm ${priority[task.priority].bg} rounded-xl h-fit justify-end`}>
-            <div className='flex flex-col gap-2 items-center w-[374px] shadow-card bg-white p-4 rounded-xl'>
+        <div className={`max-w-sm ${taskPriority.bg} rounded-xl h-fit justify-end`}>
+            <div className='flex flex-col gap-2 items-center w-[376px] ml-2 shadow-card bg-white p-4 rounded-xl'>
                 <div className='w-full flex justify-between'>
-                    <div className={`flex gap-2 ${priority[task.priority].color} rounded-xl px-2 py-1`}>
-                        {priority[task.priority].icon}
-                        {priority[task.priority].label}
+                    <div className={`flex gap-2 ${taskPriority.color} rounded-xl px-2 py-1`}>
+                        {taskPriority.icon}
+                        {taskPriority.label}
                     </div>
-                    <div className={`flex gap-2 ${status[task.status].color} rounded-xl px-2 py-1`}>
-                        {status[task.status].icon}
-                        {status[task.status].label}
+                    <div className={`flex gap-2 ${taskStatus.color} rounded-xl px-2 py-1`}>
+                        {taskStatus.icon}
+                        {taskStatus.label}
                     </div>
                 </div>
                 <div className='w-full text-xl truncate font-semibold'>
@@ -190,7 +196,7 @@ function TaskCard({ task }) {
                     </svg>
                     <p className='text-md font-bold'>{formattedDate}</p>
                 </div>
-                <div className='w-full text-lg font-bold gap-1 bg-primary rounded-lg text-white flex justify-center items-center py-2 cursor-pointer hover:bg-primary/80 transition-all duration-200'>
+                <button type='button' className='w-full text-lg font-bold gap-1 bg-primary rounded-lg text-white flex justify-center items-center py-2 cursor-pointer hover:bg-primary/80 transition-all duration-200'>
                     View More
 
                     <svg
@@ -208,7 +214,7 @@ function TaskCard({ task }) {
                         <path d="m12 5 7 7-7 7" />
                     </svg>
 
-                </div>
+                </button>
             </div>
         </div>
     )
