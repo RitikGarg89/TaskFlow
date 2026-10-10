@@ -1,6 +1,7 @@
 import React from 'react'
 import Navbar from '../Components/Navbar'
 import TaskCard from '../Components/TaskCard'
+import AddTask from '../Components/AddTask';
 
 function Home() {
     const task = {
@@ -16,7 +17,10 @@ function Home() {
     return (
         <div className='flex flex-col gap-10 h-screen w-screen bg-page'>
             <Navbar />
-            <TaskCard task={task} />
+            <div className='flex flex-row justify-center items-center w-full'>
+                {/* <TaskCard task={task} /> */}
+                <AddTask />
+            </div>
         </div>
     )
 }
