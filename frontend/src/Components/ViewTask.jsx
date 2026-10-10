@@ -2,8 +2,8 @@ import React from 'react'
 
 function ViewTask({ task }) {
     return (
-        <div className='w-[440px] h-fit flex flex-col items-center justify-center gap-2'>
-            <div className='flex flex-row items-center justify-center'>
+        <div className='min-w-[440px] w-[640px] h-fit flex flex-col items-center justify-center gap-2'>
+            <div className='flex flex-row items-center justify-between w-full'>
                 <div className='flex flex-row text-primary hover:text-primary-hover cursor-pointer items-center justify-center gap-2'>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -21,8 +21,8 @@ function ViewTask({ task }) {
                     </svg>
                     <p className='font-semibold text-md'>Back to home</p>
                 </div>
-                <div className=''>
-                    <div>
+                <div className='flex flex-row justify-center items-center gap-2'>
+                    <div className='flex flex-row justify-center items-center gap-2 border-2 px-4 py-2 rounded-lg bg-white border-border '>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="20"
@@ -39,8 +39,7 @@ function ViewTask({ task }) {
                         </svg>
                         <p>Edit</p>
                     </div>
-                    <div>
-
+                    <div className='flex flex-row justify-center text-red-500 items-center gap-2 border-2 px-4 py-2 rounded-lg bg-white border-red-400 '>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="20"
@@ -62,6 +61,24 @@ function ViewTask({ task }) {
                     </div>
                 </div>
 
+            </div>
+            <div className='w-full flex flex-col bg-white shadow-card border-2 border-border p-4 rounded-lg gap-4'>
+                <div className='flex flex-col justify-center items-start gap-2'>
+                    <h2 className='text-3xl font-bold'>{task.title}</h2>
+                    <p className='text-md text-muted font-semibold'>
+                        {task.description}
+                    </p>
+                </div>
+                <div className='flex flex-row justify-between items-center'>
+                    <div className='flex flex-row justify-center items-center gap-2'>
+                        <span className='text-md font-semibold'>Priority:</span>
+                        <span className='text-md font-semibold'>{task.priority}</span>
+                    </div>
+                    <div className='flex flex-row justify-center items-center gap-2'>
+                        <span className='text-md font-semibold'>Status:</span>
+                        <span className='text-md font-semibold'>{task.status}</span>
+                    </div>
+                </div>
             </div>
         </div>
     )
