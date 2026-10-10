@@ -52,7 +52,7 @@ function RegisterForm() {
                                 Password
                             </label>
                             <div className="relative">
-                                <input type={showPassword ? "text" : "password"} placeholder='••••••••' id="password" className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" />
+                                <input type={showPassword ? "text" : "password"} placeholder='••••••••' id="password" className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" required minLength={8} value={password} onChange={(e) => setPassword(e.target.value)} />
                                 <button type='button' onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 text-muted  -translate-y-1/2">
                                     {showPassword ? "Hide" : "Show"}
                                 </button>
@@ -63,7 +63,7 @@ function RegisterForm() {
                                 Confirm Password
                             </label>
                             <div className="relative">
-                                <input type={showConfirmPassword ? "text" : "password"} placeholder='••••••••' id="confirmPassword" className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" />
+                                <input type={showConfirmPassword ? "text" : "password"} placeholder='••••••••' id="confirmPassword" className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" required minLength={8} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
                                 <button type='button' onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-3 top-1/2 text-muted  -translate-y-1/2">
                                     {showConfirmPassword ? "Hide" : "Show"}
                                 </button>
@@ -72,7 +72,7 @@ function RegisterForm() {
 
 
                         <div>
-                            <button type='submit' className='w-full rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 py-3 text-white font-semibold hover:opacity-90 transition duration-300'>
+                            <button type='submit' onSubmit={handleSubmit} disabled={name.length < 3 || email.length < 3 || password.length < 8 || confirmPassword.length < 8 || password !== confirmPassword} className='w-full rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 py-3 text-white font-semibold hover:opacity-90 transition duration-300'>
                                 Sign up
                             </button>
                             <p className="mt-4 text-center text-sm text-slate-600">
