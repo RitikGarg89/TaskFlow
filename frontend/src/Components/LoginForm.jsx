@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 function LoginForm() {
 
@@ -59,12 +60,12 @@ function LoginForm() {
                             </button>
                             <p className="mt-4 text-center text-sm text-slate-600">
                                 Don't have an account?{" "}
-                                <a
-                                    href="#"
+                                <Link
+                                    to="/register"
                                     className="font-bold text-blue-600 hover:underline"
                                 >
                                     Sign up
-                                </a>
+                                </Link>
                             </p>
                         </div>
                     </div>
