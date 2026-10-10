@@ -4,8 +4,6 @@ import LoginForm from '../Components/LoginForm'
 function Login() {
     return (
         <div className="flex min-h-screen w-full">
-            {/* left Panel */}
-
             {/* Left Panel */}
             <div className="relative hidden min-h-screen overflow-hidden bg-gradient-to-br from-blue-50 via-white to-blue-100 px-10 py-12 text-slate-900 md:flex md:w-1/3 md:flex-col md:justify-between xl:w-1/2 xl:px-16">
 
