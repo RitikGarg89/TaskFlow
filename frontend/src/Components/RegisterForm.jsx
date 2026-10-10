@@ -5,6 +5,7 @@ function RegisterForm() {
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -37,13 +38,13 @@ function RegisterForm() {
                             <label htmlFor="name" className="mb-2 block text-sm font-medium text-slate-700">
                                 Full name
                             </label>
-                            <input type="text" placeholder='Enter your full name' id="name" className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" />
+                            <input type="text" placeholder='Enter your full name' id="name" className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" required minLength={3} maxLength={30} value={name} onChange={(e) => setName(e.target.value)} />
                         </div>
                         <div>
                             <label htmlFor="email" className="mb-2 block text-sm font-medium text-slate-700">
                                 Email address
                             </label>
-                            <input type="email" placeholder='example@email.com' id="email" className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" />
+                            <input type="email" placeholder='example@email.com' id="email" className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" required value={email} onChange={(e) => setEmail(e.target.value)} />
                         </div>
 
                         <div>
