@@ -3,7 +3,7 @@ import Navbar from '../Components/Navbar'
 
 function Home() {
     return (
-        <div>
+        <div className='flex flex-row h-screen w-screen bg-page'>
             <Navbar />
         </div>
     )
