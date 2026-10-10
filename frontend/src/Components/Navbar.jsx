@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom'
 
 function Navbar() {
     const user = true;
+    const [profileOpen, setProfileOpen] = useState(false);
     return (
         <header className='w-full h-20 px-16 py-2 bg-white flex items-center justify-between'>
             <div className="flex flex-row items-center justify-center">
