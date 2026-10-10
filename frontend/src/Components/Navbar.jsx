@@ -52,7 +52,7 @@ function Navbar() {
             <div className="flex flex-row items-center w-[100px] justify-center ">
                 {user ? (
                     <div>
-                        <div onClick={() => setProfileOpen(!profileOpen)} className='flex relative flex-row items-center gap-2 justify-center border border-muted rounded-full pr-2'>
+                        <button type='button' onClick={() => setProfileOpen(prev => !prev)} aria-label="Toggle profile menu" aria-expanded={profileOpen} className='flex relative flex-row items-center gap-2 justify-center border border-muted rounded-full pr-2'>
                             <div className='w-12 h-12 rounded-full border border-border flex items-center justify-center hover:border-blue-500 hover:text-blue-500 cursor-pointer transition-all'>
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -100,7 +100,7 @@ function Navbar() {
                                     <path d="m6 9 6 6 6-6" />
                                 </svg>)
                             }
-                        </div>
+                        </button>
                         <div className={`${profileOpen ? "flex" : "hidden"} absolute top-20 right-18 flex-col items-center bg-white rounded-xl shadow-lg p-4`}>
                             <div className='flex flex-row items-center gap-4'>
                                 <svg
