@@ -85,18 +85,26 @@ function AddTask() {
 
     const addTask = (e) => {
         e.preventDefault();
+
+        const trimmedTitle = title.trim();
+        const trimmedDescription = description.trim();
+
+        if (!trimmedTitle || !trimmedDescription) {
+            return;
+        }
+
         const taskObj = {
-            id: Date.now(),
-            title,
-            description,
+            id: crypto.randomUUID(),
+            title: trimmedTitle,
+            description: trimmedDescription,
             priority,
             userId: 1,
-            isCompleted: false,
-            createdAt: new Date().toISOString().split('T')[0]
-        }
-        console.log(taskObj);
+            status: "pending",
+            createdAt: new Date().toISOString(),
+        };
 
-    }
+        console.log(taskObj);
+    };
 
     return (
         <div className="flex flex-col justify-center items-center gap-1 w-[440px]">
