@@ -1,10 +1,15 @@
 import React from 'react'
 
 function TaskCard({ task }) {
+
+    const taskPriority = priority[task.priority] ?? priority.medium;
+    const taskStatus = status[task.status] ?? status.pending;
+
     const priority = {
         high: {
             label: "High Priority",
             color: "text-red-600 bg-red-100",
+            bg: "bg-red-600",
             icon: (
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -27,6 +32,7 @@ function TaskCard({ task }) {
         medium: {
             label: "Medium Priority",
             color: "text-amber-700 bg-amber-100",
+            bg: "bg-amber-700",
             icon: (
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -51,6 +57,7 @@ function TaskCard({ task }) {
         low: {
             label: "Low Priority",
             color: "text-green-700 bg-green-100",
+            bg: "bg-green-700",
             icon: (
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -136,30 +143,72 @@ function TaskCard({ task }) {
             ),
         },
     };
+
+    const formattedDate = new Date(task.createdAt).toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+    });
+
     return (
-        <div className='flex flex-col gap-2 items-center max-w-sm shadow-card bg-white p-4 rounded-xl'>
-            <div className='w-full flex justify-between'>
-                <div className={`flex gap-2 ${priority[task.priority].color} rounded-xl px-2 py-1`}>
-                    {priority[task.priority].icon}
-                    {priority[task.priority].label}
+        <div className={`max-w-sm ${priority[task.priority].bg} rounded-xl h-fit justify-end`}>
+            <div className='flex flex-col gap-2 items-center w-[374px] shadow-card bg-white p-4 rounded-xl'>
+                <div className='w-full flex justify-between'>
+                    <div className={`flex gap-2 ${priority[task.priority].color} rounded-xl px-2 py-1`}>
+                        {priority[task.priority].icon}
+                        {priority[task.priority].label}
+                    </div>
+                    <div className={`flex gap-2 ${status[task.status].color} rounded-xl px-2 py-1`}>
+                        {status[task.status].icon}
+                        {status[task.status].label}
+                    </div>
                 </div>
-                <div className={`flex gap-2 ${status[task.status].color} rounded-xl px-2 py-1`}>
-                    {status[task.status].icon}
-                    {status[task.status].label}
+                <div className='w-full text-xl truncate font-semibold'>
+                    {task.title}
                 </div>
-            </div>
-            <div className='w-full text-xl truncate font-semibold'>
-                {task.title}
-            </div>
-            <div className='w-full text-sm truncate text-wrap'>
-                {task.description}
-            </div>
-            <div className='w-full '></div>
-            <div className='w-full '>
-                {task.dueDate}
-            </div>
-            <div className='w-full'>
-                View More
+                <div className='w-full text-muted text-sm line-clamp-3 text-wrap'>
+                    {task.description}
+                </div>
+                <div className='w-full '></div>
+                <div className='w-full flex items-center text-left gap-2'>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
+                    >
+                        <rect x="3" y="5" width="18" height="16" rx="2" />
+                        <path d="M16 3v4" />
+                        <path d="M8 3v4" />
+                        <path d="M3 11h18" />
+                    </svg>
+                    <p className='text-md font-bold'>{formattedDate}</p>
+                </div>
+                <div className='w-full text-lg font-bold gap-1 bg-primary rounded-lg text-white flex justify-center items-center py-2 cursor-pointer hover:bg-primary/80 transition-all duration-200'>
+                    View More
+
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="white"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    >
+                        <path d="M5 12h14" />
+                        <path d="m12 5 7 7-7 7" />
+                    </svg>
+
+                </div>
             </div>
         </div>
     )
