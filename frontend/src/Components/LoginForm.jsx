@@ -30,13 +30,13 @@ function LoginForm() {
                     </p>
                 </header>
                 {/* Form goes here */}
-                <form>
+                <form onSubmit={handleSubmit}>
                     <div className="grid grid-cols-1 gap-5">
                         <div>
                             <label htmlFor="email" className="mb-2 block text-sm font-medium text-slate-700">
                                 Email address
                             </label>
-                            <input type="email" placeholder='example@email.com' id="email" className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" />
+                            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder='example@email.com' id="email" className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" required />
                         </div>
                         <div>
                             <div>
@@ -44,7 +44,7 @@ function LoginForm() {
                                     Password
                                 </label>
                                 <div className="relative">
-                                    <input type={showPassword ? "text" : "password"} placeholder='••••••••' id="password" className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" />
+                                    <input type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} placeholder='••••••••' id="password" className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" required minLength={8} />
                                     <button type='button' onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 text-muted  -translate-y-1/2">
                                         {showPassword ? "Hide" : "Show"}
                                     </button>

@@ -9,10 +9,17 @@ function RegisterForm() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [error, setError] = useState({});
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(email, password, confirmPassword);
+        if (password !== confirmPassword) {
+            setError({ title: "Password mismatch", message: "Please enter the same password" });
+            return;
+        }
+        setError({})
+        const user = { name, email, password }
+        console.log(user);
     }
     return (
         <div className="flex h-full w-[440px] items-center justify-center bg-page px-6 md:px-8">
@@ -32,7 +39,7 @@ function RegisterForm() {
                     </p>
                 </header>
                 {/* Form goes here */}
-                <form>
+                <form onSubmit={handleSubmit}>
                     <div className="grid grid-cols-1 gap-5">
                         <div>
                             <label htmlFor="name" className="mb-2 block text-sm font-medium text-slate-700">
@@ -68,11 +75,12 @@ function RegisterForm() {
                                     {showConfirmPassword ? "Hide" : "Show"}
                                 </button>
                             </div>
+                            <p className="mt-2 h-3 text-sm font-medium text-red-500">{error.message}</p>
                         </div>
 
 
                         <div>
-                            <button type='submit' onSubmit={handleSubmit} disabled={name.length < 3 || email.length < 3 || password.length < 8 || confirmPassword.length < 8 || password !== confirmPassword} className='w-full rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 py-3 text-white font-semibold hover:opacity-90 transition duration-300'>
+                            <button type='submit' className='w-full rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 py-3 text-white font-semibold hover:opacity-90 transition duration-300'>
                                 Sign up
                             </button>
                             <p className="mt-4 text-center text-sm text-slate-600">
