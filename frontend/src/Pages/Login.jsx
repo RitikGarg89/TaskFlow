@@ -5,7 +5,7 @@ function Login() {
     return (
         <div className="flex min-h-screen w-full">
             {/* Left Panel */}
-            <div className="relative hidden min-h-screen overflow-hidden bg-gradient-to-br from-blue-50 via-white to-blue-100 px-10 py-12 text-slate-900 md:flex md:w-1/3 md:flex-col md:justify-between xl:w-1/2 xl:px-16">
+            <div className="relative hidden min-h-screen overflow-hidden bg-gradient-to-br from-blue-50 via-white to-blue-100 px-10 py-12 text-slate-900 md:flex md:w-2/5 md:flex-col md:justify-between xl:w-1/2 xl:px-16">
 
                 {/* Decorative circles */}
                 <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-blue-200/40 blur-2xl" />
@@ -108,7 +108,7 @@ function Login() {
             </div>
 
             {/* Right Panel */}
-            <div className="w-full md:w-2/3 xl:w-1/2 bg-page flex items-center justify-center">
+            <div className="w-full md:w-3/5 xl:w-1/2 bg-page flex items-center justify-center">
                 <LoginForm />
             </div>
         </div>

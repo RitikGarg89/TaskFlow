@@ -5,12 +5,12 @@ function Register() {
     return (
         <div className='flex w-full h-full'>
             {/* Left Side */}
-            <div className="flex flex-col h-full w-full xl:w-1/2 md:w-2/3 items-center justify-center bg-page px-6 md:px-8">
+            <div className="flex flex-col h-screen w-full xl:w-1/2 md:w-3/5 items-center justify-center bg-page px-6 md:px-8">
                 <RegisterForm />
             </div>
 
             {/* Right Side */}
-            <div className="relative hidden min-h-screen overflow-hidden bg-gradient-to-br from-blue-50 via-blue-50 to-blue-100 px-10 py-12 text-slate-900 md:flex md:w-1/3 md:flex-col md:justify-between xl:w-1/2 xl:px-14">
+            <div className="relative hidden min-h-screen overflow-hidden bg-gradient-to-br from-blue-50 via-blue-50 to-blue-100 px-10 py-12 text-slate-900 md:flex md:w-2/5 md:flex-col md:justify-between xl:w-1/2 xl:px-14">
 
                 {/* Decorative circles */}
                 <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-blue-200/40 blur-2xl" />
