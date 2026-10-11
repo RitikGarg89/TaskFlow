@@ -31,6 +31,8 @@ function RegisterForm() {
             createdAt: new Date().toISOString().split("T")[0]
         }
         addUsers(user);
+        setCurrentUser(user);
+        navigate("/");
     }
     return (
         <div className="flex h-full w-[440px] items-center justify-center bg-page px-6 md:px-8">

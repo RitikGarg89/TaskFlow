@@ -1,16 +1,24 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { setCurrentUser, validateUser } from '../Utils/UserStorage';
+
 
 
 function LoginForm() {
-
+    const navigate = useNavigate();
+    const [error, setError] = useState({ title: "", message: "" });
     const [showPassword, setShowPassword] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
+        const isUserValid = validateUser(email, password)
+        if (!isUserValid) {
+            setError({ title: "Invalid user", message: "Please enter a valid email and password" });
+        }
+        setCurrentUser(isUserValid);
+        navigate('/')
     }
 
     return (
@@ -38,6 +46,7 @@ function LoginForm() {
                                 Email address
                             </label>
                             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder='example@email.com' id="email" className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" required />
+                            <p className="mt-2 h-3 text-sm font-medium text-red-500">{error.title === "Password mismatch" && error.message}</p>
                         </div>
                         <div>
                             <div>
