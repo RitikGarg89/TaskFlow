@@ -12,7 +12,7 @@ export function getUsers() {
 // Add registered users
 export function addUsers(newUser) {
     const users = getUsers();
-    const userExist = users.find(user => user.username === newUser.username || user.email === newUser.email);
+    const userExist = users.find(user => user.email === newUser.email);
     if (userExist) {
         return;
     }
@@ -22,13 +22,13 @@ export function addUsers(newUser) {
 }
 
 // validate user is exist or not for Login
-export function validateUser(username, password) {
+export function validateUser(email, password) {
     const users = getUsers();
-    const userExist = users.find(user => user.username === username && user.password === password);
+    const userExist = users.find(user => user.email === email && user.password === password);
     return userExist ?? null;
 }
 
-// validate username is exist or not for SignIn
+// validate username is exist or not for register
 export function validateDuplicateUser(email) {
     const users = getUsers();
     const userExist = users.find(user => user.email === email);

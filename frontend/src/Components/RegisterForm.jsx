@@ -28,7 +28,7 @@ function RegisterForm() {
             name,
             email,
             password,
-            createdAt: new Date().toISOString()
+            createdAt: new Date().toISOString().split("T")[0]
         }
         addUsers(user);
     }
@@ -63,6 +63,7 @@ function RegisterForm() {
                                 Email address
                             </label>
                             <input type="email" placeholder='example@email.com' id="email" className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" required value={email} onChange={(e) => setEmail(e.target.value)} />
+                            <p className="mt-2 h-3 text-sm font-medium text-red-500">{error.title === "Email already exists" && error.message}</p>
                         </div>
 
                         <div>
@@ -86,7 +87,7 @@ function RegisterForm() {
                                     {showConfirmPassword ? "Hide" : "Show"}
                                 </button>
                             </div>
-                            <p className="mt-2 h-3 text-sm font-medium text-red-500">{error.message}</p>
+                            <p className="mt-2 h-3 text-sm font-medium text-red-500">{error.title === "Password mismatch" && error.message}</p>
                         </div>
 
 
