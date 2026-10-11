@@ -1,5 +1,6 @@
 import React from 'react'
 import Navbar from '../Components/Navbar'
+import HeroSection from '../Components/HeroSection'
 import TaskCard from '../Components/TaskCard'
 import AddTask from '../Components/AddTask';
 import ViewTask from '../Components/ViewTask';
@@ -19,11 +20,12 @@ function Home() {
     return (
         <div className='flex flex-col gap-10 h-screen w-screen bg-page'>
             <Navbar />
-            <div className='flex flex-row justify-center items-center w-full'>
+            <div className='w-[1440px] mx-auto'>
                 {/* <TaskCard task={task} /> */}
                 {/* <AddTask />
                 <EditTask task={task} /> */}
                 {/* <ViewTask task={task} /> */}
+                <HeroSection />
             </div>
         </div>
     )
