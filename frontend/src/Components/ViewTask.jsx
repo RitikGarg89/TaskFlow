@@ -214,14 +214,34 @@ function ViewTask({ task }) {
 
             </div>
             <div className='w-full flex flex-col bg-white shadow-card border-2 border-border p-4 rounded-lg gap-4'>
-                <div className='flex flex-col justify-center items-start gap-2'>
+                <div className='flex flex-row justify-between items-start gap-2'>
                     <div>
-                        <p>{task.title}</p>
-                        <p>{formattedDate}</p>
+                        <p className='text-2xl font-bold text-slate-700'>{task.title}</p>
+                        <p className='text-sm font-semibold text-gray-500'>Created on {formattedDate}</p>
                     </div>
-                    <div>
-
+                    <div className='flex flex-col justify-center items-end gap-2'>
+                        <div className={`px-3 py-1 rounded-xl ${priority[task.priority]?.color} flex justify-center items-center`}>
+                            {priority[task.priority]?.icon}
+                            <span
+                                className={`ml-2 font-medium text-sm ${priority[task.priority]?.color}
+                        }`}
+                            >
+                                {priority[task.priority]?.label}
+                            </span>
+                        </div>
+                        <div className={`px-3 py-1 rounded-xl ${status[task.status]?.color} flex justify-center items-center`}>
+                            {status[task.status]?.icon}
+                            <span
+                                className={`ml-2 font-medium text-sm ${status[task.status]?.color}
+                            }`}
+                            >
+                                {status[task.status]?.label}
+                            </span>
+                        </div>
                     </div>
+                </div>
+                <div>
+                    <p>Task Detail</p>
                 </div>
             </div>
         </div >
