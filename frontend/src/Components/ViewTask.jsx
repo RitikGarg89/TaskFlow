@@ -1,6 +1,8 @@
-import React from 'react'
+import { useState } from 'react'
 
 function ViewTask({ task }) {
+
+    const [currentStatus, setCurrentStatus] = useState(task.status);
 
     const priority = {
         high: {
@@ -74,10 +76,37 @@ function ViewTask({ task }) {
             ),
         },
     };
-    const status = {
-        "in-progress": {
+
+    const statuses = [
+        {
+            value: "pending",
+            label: "Pending",
+            description: "Not started yet",
+            color: "text-slate-700 bg-slate-100",
+            selected: "border-slate-400 bg-slate-50 ring-2 ring-slate-100",
+            icon: (
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                >
+                    <circle cx="12" cy="12" r="9" />
+                </svg>
+            ),
+        },
+        {
+            value: "in-progress",
             label: "In Progress",
+            description: "Currently working",
             color: "text-blue-600 bg-blue-100",
+            selected: "border-blue-500 bg-blue-50 ring-2 ring-blue-100",
             icon: (
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -96,10 +125,12 @@ function ViewTask({ task }) {
                 </svg>
             ),
         },
-
-        pending: {
-            label: "Pending",
-            color: "text-slate-700 bg-slate-100",
+        {
+            value: "completed",
+            label: "Completed",
+            description: "Task finished",
+            color: "text-green-700 bg-green-100",
+            selected: "border-green-500 bg-green-50 ring-2 ring-green-100",
             icon: (
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -109,37 +140,17 @@ function ViewTask({ task }) {
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     aria-hidden="true"
                 >
                     <circle cx="12" cy="12" r="9" />
+                    <path d="m7 12 3 3 7-7" />
                 </svg>
             ),
         },
+    ];
 
-        completed: {
-            label: "Completed",
-            color: "text-green-700 bg-green-100",
-            icon: (
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    aria-hidden="true"
-                >
-                    <circle cx="12" cy="12" r="10" fill="#16A34A" />
-                    <path
-                        d="m7.5 12.5 3 3 6-6"
-                        stroke="#FFFFFF"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                    />
-                </svg>
-            ),
-        },
-    };
 
     const date = task.createdAt ? new Date(task.createdAt) : null;
 
@@ -151,6 +162,10 @@ function ViewTask({ task }) {
                 year: "numeric",
             })
             : "No date";
+
+    const selectedStatus =
+        statuses.find((status) => status.value === currentStatus) ??
+        statuses[0];
 
     return (
         <div className='min-w-[440px] w-[640px] h-fit flex flex-col items-center justify-center gap-2'>
@@ -229,19 +244,78 @@ function ViewTask({ task }) {
                                 {priority[task.priority]?.label}
                             </span>
                         </div>
-                        <div className={`px-3 py-1 rounded-xl ${status[task.status]?.color} flex justify-center items-center`}>
-                            {status[task.status]?.icon}
+                        <div className={`px-3 py-1 rounded-xl ${selectedStatus?.color} flex justify-center items-center`}>
+                            {selectedStatus?.icon}
                             <span
-                                className={`ml-2 font-medium text-sm ${status[task.status]?.color}
+                                className={`ml-2 font-medium text-sm ${selectedStatus?.color}
                             }`}
                             >
-                                {status[task.status]?.label}
+                                {selectedStatus?.label}
                             </span>
                         </div>
                     </div>
                 </div>
-                <div>
-                    <p>Task Detail</p>
+                <div className='flex flex-col gap-2'>
+                    <p className='font-semibold text-lg'>Task Detail</p>
+                    <p className='text-sm text-gray-500'>{task.description}</p>
+                </div>
+                <div className='h-divider border-t-2 border-border'></div>
+                <div className='flex flex-col gap-2'>
+                    <p className='font-semibold text-lg'>Task Status</p>
+                    <p className='text-sm text-gray-500'>Update the current status of this task</p>
+                    <div
+                        role="group"
+                        aria-labelledby="priority-label"
+                        className="grid grid-cols-3 gap-3"
+                    >
+                        {statuses.map((status) => {
+                            const isSelected = status.value === currentStatus;
+
+                            return (
+                                <button
+                                    key={status.value}
+                                    type="button"
+                                    onClick={() => setCurrentStatus(status.value)}
+                                    className={`flex items-center gap-3 rounded-xl border p-4 ${isSelected
+                                        ? status.selected
+                                        : "border-slate-200 bg-white"
+                                        }`}
+                                >
+                                    <span className={`rounded-full p-1 ${status.color}`}>
+                                        {status.icon}
+                                    </span>
+
+                                    <div className="text-left">
+                                        <p className="font-medium">{status.label}</p>
+                                        <p className="text-sm text-slate-500">
+                                            {status.description}
+                                        </p>
+                                    </div>
+                                </button>
+                            );
+                        })}
+                    </div>
+                </div>
+                <div className='flex p-2 gap-2 bg-blue-50 border-2 border-blue-300 rounded-xl'>
+                    <div className='text-blue-500'>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="3"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            aria-hidden="true"
+                        >
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M12 16v-4" />
+                            <path d="M12 8h.01" />
+                        </svg>
+                    </div>
+                    <p>Click the 'Edit' Button to modify this task. You can also update the status or delete this task using the button above.  </p>
                 </div>
             </div>
         </div >

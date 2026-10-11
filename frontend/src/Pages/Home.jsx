@@ -3,6 +3,7 @@ import Navbar from '../Components/Navbar'
 import TaskCard from '../Components/TaskCard'
 import AddTask from '../Components/AddTask';
 import ViewTask from '../Components/ViewTask';
+import EditTask from '../Components/EditTask';
 
 function Home() {
     const task = {
@@ -20,8 +21,9 @@ function Home() {
             <Navbar />
             <div className='flex flex-row justify-center items-center w-full'>
                 {/* <TaskCard task={task} /> */}
-                {/* <AddTask /> */}
-                <ViewTask task={task} />
+                {/* <AddTask />
+                <EditTask task={task} /> */}
+                {/* <ViewTask task={task} /> */}
             </div>
         </div>
     )
