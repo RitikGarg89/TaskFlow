@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { addUsers, validateDuplicateUser } from '../Utils/UserStorage';
 
 function RegisterForm() {
     const navigate = useNavigate();
@@ -17,9 +18,19 @@ function RegisterForm() {
             setError({ title: "Password mismatch", message: "Please enter the same password" });
             return;
         }
+        if (validateDuplicateUser(email)) {
+            setError({ title: "Email already exists", message: "Please enter a different email" });
+            return;
+        }
         setError({})
-        const user = { name, email, password }
-        console.log(user);
+        const user = {
+            id: crypto.randomUUID(),
+            name,
+            email,
+            password,
+            createdAt: new Date().toISOString()
+        }
+        addUsers(user);
     }
     return (
         <div className="flex h-full w-[440px] items-center justify-center bg-page px-6 md:px-8">

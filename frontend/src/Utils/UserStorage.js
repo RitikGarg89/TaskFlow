@@ -29,9 +29,9 @@ export function validateUser(username, password) {
 }
 
 // validate username is exist or not for SignIn
-export function validateDuplicateUser(username, email) {
+export function validateDuplicateUser(email) {
     const users = getUsers();
-    const userExist = users.find(user => user.username === username || user.email === email);
+    const userExist = users.find(user => user.email === email);
     return userExist ?? null;
 }
 
