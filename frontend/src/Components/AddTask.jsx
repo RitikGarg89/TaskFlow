@@ -21,11 +21,13 @@ function AddTask() {
     };
 
     return (
-        <div className="flex justify-center w-[440px] px-4 py-8">
-            <TaskForm
-                submitLabel="Create Task"
-                onSubmit={addTask}
-            />
+        <div className="flex flex-col justify-center items-center w-full h-screen">
+            <div className="flex justify-center w-[440px] px-4 py-8">
+                <TaskForm
+                    submitLabel="Create Task"
+                    onSubmit={addTask}
+                />
+            </div>
         </div>
     );
 }

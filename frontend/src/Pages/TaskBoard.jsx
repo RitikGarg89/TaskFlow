@@ -1,105 +1,17 @@
 import { useState } from 'react'
 import TaskCard from '../Components/TaskCard';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from "react-redux";
 
 function TaskBoard() {
+
+    const tasks = useSelector((state) => state.tasks.tasks);
+    const navigate = useNavigate();
     const today = new Date();
 
     const [showFilters, setShowFilters] = useState(false);
     const [priority, setPriority] = useState("all");
     const [status, setStatus] = useState("all");
-
-    const dummyTasks = [
-        {
-            id: "task-001",
-            userId: "user-001",
-            title: "Complete React Dashboard",
-            description: "Finish the dashboard UI and connect Redux state.",
-            priority: "high",
-            status: "in-progress",
-            createdAt: "2026-10-12T09:00:00.000Z",
-        },
-        {
-            id: "task-002",
-            userId: "user-001",
-            title: "Revise JavaScript Concepts",
-            description: "Review array methods, closures, and promises.",
-            priority: "high",
-            status: "pending",
-            createdAt: "2026-10-11T10:30:00.000Z",
-        },
-        {
-            id: "task-003",
-            userId: "user-001",
-            title: "Set Up React Router",
-            description: "Configure application routes and the shared layout.",
-            priority: "medium",
-            status: "completed",
-            createdAt: "2026-10-10T08:15:00.000Z",
-        },
-        {
-            id: "task-004",
-            userId: "user-001",
-            title: "Build Task Creation Form",
-            description: "Add title, description, priority, and status fields.",
-            priority: "high",
-            status: "pending",
-            createdAt: "2026-10-09T12:00:00.000Z",
-        },
-        {
-            id: "task-005",
-            userId: "user-001",
-            title: "Improve Dashboard Styling",
-            description: "Make task cards responsive using Tailwind CSS.",
-            priority: "medium",
-            status: "in-progress",
-            createdAt: "2026-10-08T14:20:00.000Z",
-        },
-        {
-            id: "task-006",
-            userId: "user-001",
-            title: "Practice Redux Toolkit",
-            description: "Review reducers, actions, and useSelector.",
-            priority: "medium",
-            status: "completed",
-            createdAt: "2026-10-07T07:45:00.000Z",
-        },
-        {
-            id: "task-007",
-            userId: "user-001",
-            title: "Test Search Functionality",
-            description: "Verify searching by task title and description.",
-            priority: "low",
-            status: "pending",
-            createdAt: "2026-10-06T11:10:00.000Z",
-        },
-        {
-            id: "task-008",
-            userId: "user-001",
-            title: "Add Priority Filters",
-            description: "Filter tasks by high, medium, and low priority.",
-            priority: "high",
-            status: "completed",
-            createdAt: "2026-10-05T09:30:00.000Z",
-        },
-        {
-            id: "task-009",
-            userId: "user-001",
-            title: "Implement Status Sorting",
-            description: "Organize tasks by pending and completed status.",
-            priority: "low",
-            status: "in-progress",
-            createdAt: "2026-10-04T15:00:00.000Z",
-        },
-        {
-            id: "task-010",
-            userId: "user-001",
-            title: "Update Project README",
-            description: "Document project features and installation steps.",
-            priority: "low",
-            status: "completed",
-            createdAt: "2026-10-03T13:25:00.000Z",
-        },
-    ];
 
     const statCards = [
         {
@@ -129,9 +41,9 @@ function TaskBoard() {
         },
         {
             id: 2,
-            title: "To Do",
+            title: "Pending",
             count: 3,
-            borderColor: "border-yellow-500",
+            borderColor: "border-amber-500",
             icon:
                 <div className="rounded-xl bg-red-100 p-2 text-red-300">
                     <svg
@@ -154,7 +66,7 @@ function TaskBoard() {
             id: 3,
             title: "In Progress",
             count: 2,
-            borderColor: "border-orange-500",
+            borderColor: "border-yellow-500",
             icon: <div className="rounded-xl bg-amber-100 p-2 text-amber-300">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -246,7 +158,7 @@ function TaskBoard() {
             <div className='flex flex-col gap-5'>
                 <div className='flex justify-between items-center'>
                     <h1 className='text-2xl font-semibold'>All Tasks</h1>
-                    <button className='px-3 py-2 bg-blue-600 text-xl text-white rounded-lg hover:bg-blue-700 transition-all flex items-center gap-2'>+ Add Task</button>
+                    <button onClick={() => navigate('/task/add')} className='px-3 py-2 bg-blue-600 text-xl text-white rounded-lg hover:bg-blue-700 transition-all flex items-center gap-2'>+ Add Task</button>
                 </div>
                 <div className='bg-white shadow-card rounded-2xl p-4 space-y-4'>
                     {/* Search bar and Filter */}
@@ -375,7 +287,7 @@ function TaskBoard() {
                                     <div className="flex flex-wrap gap-2">
                                         {[
                                             { label: "All", value: "all" },
-                                            { label: "To Do", value: "todo" },
+                                            { label: "Pending", value: "pending" },
                                             { label: "In Progress", value: "in-progress" },
                                             { label: "Completed", value: "completed" },
                                         ].map((item) => (
@@ -421,7 +333,7 @@ function TaskBoard() {
                 </div>
                 <div className='grid grid-cols-3 mt-5 gap-4 justify-items-center'>
                     {
-                        dummyTasks.map((task) => (
+                        tasks.map((task) => (
                             <TaskCard key={task.id} task={task} />
                         ))
                     }
