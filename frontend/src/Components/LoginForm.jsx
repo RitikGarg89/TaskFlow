@@ -16,15 +16,25 @@ function LoginForm() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const isUserValid = validateUser(email, password)
-        if (!isUserValid) {
-            setError({ title: "Invalid user", message: "Please enter a valid email and password" });
+
+        const user = validateUser(email, password);
+
+        if (!user) {
+            setError({
+                title: "Invalid user",
+                message: "Please enter a valid email and password",
+            });
+            return;
         }
-        setCurrentUser(isUserValid);
+
+        setError({ title: "", message: "" });
+
+        setCurrentUser(user);
+        dispatch(loginSuccess(user));
         dispatch(setTasks(getTasks() ?? []));
-        dispatch(loginUser(isUserValid));
-        navigate('/')
-    }
+
+        navigate("/");
+    };
 
     return (
         <div className="flex h-full w-[440px] items-center justify-center bg-page px-6 md:px-8">

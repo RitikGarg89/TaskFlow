@@ -4,8 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
 
 function TaskBoard() {
-
     const tasks = useSelector((state) => state.tasks.tasks);
+    const user = useSelector((state) => state.auth.user);
+    const userTasks = tasks.filter(
+        (task) => task.userId === user?.id
+    );
     const navigate = useNavigate();
     const today = new Date();
 

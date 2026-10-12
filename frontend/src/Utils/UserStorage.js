@@ -2,7 +2,7 @@
 const USERS_KEY = "users";
 const CURRENT_USER_KEY = "currentUser";
 const SESSION_KEY = "sessionExpiry";
-const SESSION_DURATION = 5 * 60 * 1000; // 5 minutes
+const SESSION_DURATION = 100 * 60 * 1000; // 5 minutes
 
 // Get all registered users
 export function getUsers() {

@@ -2,9 +2,10 @@ import { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../Features/AuthSlice";
+import { endSession } from "../Utils/UserStorage";
 
 function Navbar() {
-    const { user } = useSelector((state) => state.auth);
+    const { user, isAuthenticated } = useSelector((state) => state.auth);
     const [profileOpen, setProfileOpen] = useState(false);
     const dispatch = useDispatch();
 
@@ -13,6 +14,7 @@ function Navbar() {
     const handleLogout = () => {
         setProfileOpen(false);
         dispatch(logout());
+        endSession();
         navigate("/login");
     };
     return (
@@ -61,7 +63,7 @@ function Navbar() {
                 </ul>
             </nav>
             <div className="flex flex-row items-center w-[100px] justify-center ">
-                {user ? (
+                {isAuthenticated ? (
                     <div>
                         <button type='button' onClick={() => setProfileOpen(prev => !prev)} aria-label="Toggle profile menu" aria-expanded={profileOpen} className='flex relative flex-row items-center gap-2 justify-center border border-muted rounded-full pr-2'>
                             <div className='w-12 h-12 rounded-full border border-border flex items-center justify-center hover:border-blue-500 hover:text-blue-500 cursor-pointer transition-all'>
