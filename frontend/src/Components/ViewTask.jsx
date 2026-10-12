@@ -1,8 +1,39 @@
 import { useState } from 'react'
+import { useParams, useNavigate } from "react-router-dom";
 
-function ViewTask({ task }) {
+function ViewTask({ tasks = [] }) {
+    const { taskId } = useParams();
+    const navigate = useNavigate();
 
-    const [currentStatus, setCurrentStatus] = useState(task.status);
+    // Find the task selected from the taskboard
+    const task = tasks.find(
+        (item) => String(item.id) === taskId
+    );
+
+    // Store the current task status
+    const [currentStatus, setCurrentStatus] = useState(
+        task?.status ?? "pending"
+    );
+
+    // Handle invalid or missing task IDs
+    if (!task) {
+        return (
+            <div className="flex flex-col items-center gap-4 p-8">
+                <h2 className="text-xl font-semibold">
+                    Task not found
+                </h2>
+
+                <button
+                    onClick={() => navigate("/")}
+                    className="rounded-lg bg-blue-600 px-4 py-2 text-white"
+                >
+                    Back to Home
+                </button>
+            </div>
+        );
+    }
+
+    // Keep your existing priority and statuses arrays below
 
     const priority = {
         high: {
@@ -170,7 +201,7 @@ function ViewTask({ task }) {
     return (
         <div className='min-w-[440px] w-[640px] h-fit flex flex-col items-center justify-center gap-2'>
             <div className='flex flex-row items-center justify-between w-full'>
-                <div className='flex flex-row text-primary hover:text-primary-hover cursor-pointer items-center justify-center gap-2'>
+                <div onClick={() => navigate("/")} className='flex flex-row text-primary hover:text-primary-hover cursor-pointer items-center justify-center gap-2'>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="24"

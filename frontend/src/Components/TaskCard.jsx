@@ -1,7 +1,9 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function TaskCard({ task }) {
 
+    const navigate = useNavigate();
 
     const priority = {
         high: {
@@ -196,7 +198,7 @@ function TaskCard({ task }) {
                     </svg>
                     <p className='text-md font-bold'>{formattedDate}</p>
                 </div>
-                <button type='button' className='w-full text-lg font-bold gap-1 bg-primary rounded-lg text-white flex justify-center items-center py-2 cursor-pointer hover:bg-primary/80 transition-all duration-200'>
+                <button onClick={() => navigate(`/tasks/${task.id}`)} type='button' className='w-full text-lg font-bold gap-1 bg-primary rounded-lg text-white flex justify-center items-center py-2 cursor-pointer hover:bg-primary/80 transition-all duration-200'>
                     View More
 
                     <svg

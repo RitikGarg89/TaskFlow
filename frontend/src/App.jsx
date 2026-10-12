@@ -4,8 +4,8 @@ import Register from './Pages/Register'
 import Home from './Pages/Home'
 import Profile from './Pages/Profile'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-
 import AppLayout from "./Layouts/AppLayout";
+import ViewTask from './Components/ViewTask'
 
 const router = createBrowserRouter([
   {
@@ -31,7 +31,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/tasks/:taskId",
-    element: <TaskDetails />
+    element: <ViewTask />
   }
 ]);
 
