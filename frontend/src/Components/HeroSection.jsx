@@ -1,5 +1,5 @@
 import React from 'react'
-import heroImage from "../assets/11668613_20945628.svg";
+import heroImage from "../assets/Hero.svg";
 
 function HeroSection() {
     return (

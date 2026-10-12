@@ -7,6 +7,7 @@ import ViewTask from '../Components/ViewTask';
 import EditTask from '../Components/EditTask';
 import FeatureSection from '../Components/FeatureSection';
 import WhyChooseSection from '../Components/WhyChooseSection';
+import Footer from '../Components/Footer';
 
 function Home() {
     const task = {
@@ -31,6 +32,7 @@ function Home() {
                 <FeatureSection />
                 <WhyChooseSection />
             </div>
+            <Footer />
         </div>
     )
 }
