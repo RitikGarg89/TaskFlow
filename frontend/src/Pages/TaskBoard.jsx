@@ -20,7 +20,7 @@ function TaskBoard() {
         {
             id: 1,
             title: "Total Task",
-            count: 10,
+            count: userTasks.length,
             borderColor: "border-blue-500",
             icon:
                 <div className="rounded-xl bg-blue-100 p-3 text-blue-600">
@@ -45,7 +45,7 @@ function TaskBoard() {
         {
             id: 2,
             title: "Pending",
-            count: 3,
+            count: userTasks.filter((task) => task.status === "pending").length,
             borderColor: "border-amber-500",
             icon:
                 <div className="rounded-xl bg-red-100 p-2 text-red-300">
@@ -68,7 +68,7 @@ function TaskBoard() {
         {
             id: 3,
             title: "In Progress",
-            count: 2,
+            count: userTasks.filter((task) => task.status === "in-progress").length,
             borderColor: "border-yellow-500",
             icon: <div className="rounded-xl bg-amber-100 p-2 text-amber-300">
                 <svg
@@ -91,7 +91,7 @@ function TaskBoard() {
         {
             id: 4,
             title: "Completed",
-            count: 5,
+            count: userTasks.filter((task) => task.status === "completed").length,
             borderColor: "border-green-500",
             icon:
                 <div className="rounded-xl bg-green-300 p-2 text-green-600">
@@ -336,7 +336,7 @@ function TaskBoard() {
                 </div>
                 <div className='grid grid-cols-3 mt-5 gap-4 justify-items-center'>
                     {
-                        tasks.map((task) => (
+                        userTasks.map((task) => (
                             <TaskCard key={task.id} task={task} />
                         ))
                     }
