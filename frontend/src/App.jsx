@@ -29,6 +29,10 @@ const router = createBrowserRouter([
     path: "/profile",
     element: <Profile />,
   },
+  {
+    path: "/tasks/:taskId",
+    element: <TaskDetails />
+  }
 ]);
 
 function App() {
