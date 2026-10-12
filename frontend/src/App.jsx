@@ -5,25 +5,31 @@ import Home from './Pages/Home'
 import Profile from './Pages/Profile'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
+import AppLayout from "./Layouts/AppLayout";
+
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <Home />
+    element: <AppLayout />,
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
+    ],
   },
   {
     path: "/login",
-    element: <Login />
+    element: <Login />,
   },
   {
     path: "/register",
-    element: <Register />
+    element: <Register />,
   },
   {
     path: "/profile",
-    element: <Profile />
-  }
-])
-
+    element: <Profile />,
+  },
+]);
 
 function App() {
   return (

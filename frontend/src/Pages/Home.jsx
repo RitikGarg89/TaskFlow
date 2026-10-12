@@ -1,13 +1,6 @@
 import React from 'react'
-import Navbar from '../Components/Navbar'
-import HeroSection from '../Components/HeroSection'
-import TaskCard from '../Components/TaskCard'
-import AddTask from '../Components/AddTask';
-import ViewTask from '../Components/ViewTask';
-import EditTask from '../Components/EditTask';
-import FeatureSection from '../Components/FeatureSection';
-import WhyChooseSection from '../Components/WhyChooseSection';
-import Footer from '../Components/Footer';
+import Visitor from './Visitor';
+import TaskBoard from './TaskBoard';
 
 function Home() {
     const task = {
@@ -21,19 +14,9 @@ function Home() {
         userId: "user-001",
     };
     return (
-        <div className='flex flex-col gap-10 h-screen w-screen bg-page'>
-            <Navbar />
-            <div className='w-[1440px] mx-auto'>
-                {/* <TaskCard task={task} /> */}
-                {/* <AddTask />
-                <EditTask task={task} /> */}
-                {/* <ViewTask task={task} /> */}
-                <HeroSection />
-                <FeatureSection />
-                <WhyChooseSection />
-            </div>
-            <Footer />
-        </div>
+
+        // <Visitor />
+        <TaskBoard />
     )
 }
 
