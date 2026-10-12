@@ -1,13 +1,18 @@
-import { useState } from 'react'
 import { useParams, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { updateTask, deleteTask } from "../Features/TaskSlice";
 
-function ViewTask({ tasks = [] }) {
+function ViewTask() {
     const { taskId } = useParams();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    // Find the task selected from the taskboard
+    const tasks = useSelector((state) => state.tasks.tasks);
+    const { user } = useSelector((state) => state.auth);
     const task = tasks.find(
-        (item) => String(item.id) === taskId
+        (item) =>
+            String(item.id) === taskId &&
+            String(item.userId) === String(user?.id)
     );
 
     // Store the current task status
