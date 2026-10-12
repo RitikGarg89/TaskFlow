@@ -5,6 +5,8 @@ import TaskCard from '../Components/TaskCard'
 import AddTask from '../Components/AddTask';
 import ViewTask from '../Components/ViewTask';
 import EditTask from '../Components/EditTask';
+import FeatureSection from '../Components/FeatureSection';
+import WhyChooseSection from '../Components/WhyChooseSection';
 
 function Home() {
     const task = {
@@ -26,6 +28,8 @@ function Home() {
                 <EditTask task={task} /> */}
                 {/* <ViewTask task={task} /> */}
                 <HeroSection />
+                <FeatureSection />
+                <WhyChooseSection />
             </div>
         </div>
     )
