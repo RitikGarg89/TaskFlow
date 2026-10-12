@@ -1,8 +1,13 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { addUsers, validateDuplicateUser } from '../Utils/UserStorage';
+import { addUsers, validateDuplicateUser, setCurrentUser } from '../Utils/UserStorage';
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from "../Features/AuthSlice";
+import { setTasks } from "../Features/TaskSlice";
+import { getTasks } from "../Utils/TaskStorage";
 
 function RegisterForm() {
+    const dispatch = useDispatch()
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -32,6 +37,8 @@ function RegisterForm() {
         }
         addUsers(user);
         setCurrentUser(user);
+        dispatch(loginSuccess(user));
+        dispatch(setTasks(getTasks() ?? []));
         navigate("/");
     }
     return (

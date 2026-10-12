@@ -1,10 +1,13 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { setCurrentUser, validateUser } from '../Utils/UserStorage';
-
-
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from "../Features/AuthSlice";
+import { setTasks } from "../Features/TaskSlice";
+import { getTasks } from "../Utils/TaskStorage";
 
 function LoginForm() {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [error, setError] = useState({ title: "", message: "" });
     const [showPassword, setShowPassword] = useState(false);
@@ -18,6 +21,8 @@ function LoginForm() {
             setError({ title: "Invalid user", message: "Please enter a valid email and password" });
         }
         setCurrentUser(isUserValid);
+        dispatch(setTasks(getTasks() ?? []));
+        dispatch(loginUser(isUserValid));
         navigate('/')
     }
 

@@ -1,16 +1,18 @@
 import { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../Features/AuthSlice";
 
 function Navbar() {
-    const user = true;
+    const { user } = useSelector((state) => state.auth);
     const [profileOpen, setProfileOpen] = useState(false);
+    const dispatch = useDispatch();
 
     const navigate = useNavigate();
 
     const handleLogout = () => {
         setProfileOpen(false);
-
-        // Later: dispatch your Redux logout action here.
+        dispatch(logout());
         navigate("/login");
     };
     return (

@@ -5,17 +5,21 @@ import taskReducer, {
     deleteTask,
     setTasks,
 } from "../Features/TaskSlice";
+
+import authReducer from "../Features/AuthSlice";
 import { saveTasks } from "../Utils/TaskStorage";
 
 const taskPersistenceMiddleware = (store) => (next) => (action) => {
     const result = next(action);
 
-    if ([
-        addTask.type,
-        updateTask.type,
-        deleteTask.type,
-        setTasks.type,
-    ].includes(action.type)) {
+    if (
+        [
+            addTask.type,
+            updateTask.type,
+            deleteTask.type,
+            setTasks.type,
+        ].includes(action.type)
+    ) {
         saveTasks(store.getState().tasks.tasks);
     }
 
@@ -24,6 +28,7 @@ const taskPersistenceMiddleware = (store) => (next) => (action) => {
 
 export const store = configureStore({
     reducer: {
+        auth: authReducer,
         tasks: taskReducer,
     },
     middleware: (getDefaultMiddleware) =>
