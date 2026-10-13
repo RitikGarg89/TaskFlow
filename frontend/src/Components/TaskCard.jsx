@@ -1,8 +1,8 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
+
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function TaskCard({ task }) {
-
     const navigate = useNavigate();
 
     const priority = {
@@ -77,6 +77,7 @@ function TaskCard({ task }) {
             ),
         },
     };
+
     const status = {
         "in-progress": {
             label: "In Progress",
@@ -159,26 +160,50 @@ function TaskCard({ task }) {
     const taskStatus = status[task.status] ?? status.pending;
 
     return (
-        <div className={`max-w-sm ${taskPriority.bg} rounded-xl h-fit justify-end`}>
-            <div className='flex flex-col gap-2 items-center w-[376px] ml-2 shadow-card bg-white p-4 rounded-xl'>
-                <div className='w-full flex justify-between'>
-                    <div className={`flex gap-2 ${taskPriority.color} rounded-xl px-2 py-1`}>
-                        {taskPriority.icon}
-                        {taskPriority.label}
+        <div
+            className={`h-fit min-w-0 w-full max-w-sm rounded-xl ${taskPriority.bg}`}
+        >
+            <div className="ml-1 flex min-w-0 w-[calc(100%-0.25rem)] flex-col items-center gap-3 rounded-xl bg-white p-3 shadow-card sm:p-4">
+
+                {/* Priority and status */}
+                <div className="flex w-full min-w-0 flex-col items-start gap-2 min-[400px]:flex-row min-[400px]:items-center min-[400px]:justify-between">
+                    <div
+                        className={`flex max-w-full min-w-0 items-center gap-2 rounded-xl px-2 py-1 text-sm ${taskPriority.color}`}
+                    >
+                        <span className="shrink-0">
+                            {taskPriority.icon}
+                        </span>
+                        <span className="break-words">
+                            {taskPriority.label}
+                        </span>
                     </div>
-                    <div className={`flex gap-2 ${taskStatus.color} rounded-xl px-2 py-1`}>
-                        {taskStatus.icon}
-                        {taskStatus.label}
+
+                    <div
+                        className={`flex max-w-full min-w-0 items-center gap-2 rounded-xl px-2 py-1 text-sm ${taskStatus.color}`}
+                    >
+                        <span className="shrink-0">
+                            {taskStatus.icon}
+                        </span>
+                        <span className="break-words">
+                            {taskStatus.label}
+                        </span>
                     </div>
                 </div>
-                <div className='w-full text-xl truncate font-semibold'>
+
+                {/* Task title */}
+                <div className="w-full min-w-0 truncate text-lg font-semibold sm:text-xl">
                     {task.title}
                 </div>
-                <div className='w-full text-muted text-sm line-clamp-3 text-wrap'>
+
+                {/* Task description */}
+                <div className="line-clamp-3 w-full min-w-0 break-words text-sm text-muted">
                     {task.description}
                 </div>
-                <div className='w-full '></div>
-                <div className='w-full flex items-center text-left gap-2'>
+
+                <div className="w-full" />
+
+                {/* Created date */}
+                <div className="flex w-full min-w-0 items-center gap-2 text-left">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="20"
@@ -196,9 +221,18 @@ function TaskCard({ task }) {
                         <path d="M8 3v4" />
                         <path d="M3 11h18" />
                     </svg>
-                    <p className='text-md font-bold'>{formattedDate}</p>
+
+                    <p className="min-w-0 break-words text-sm font-bold sm:text-base">
+                        {formattedDate}
+                    </p>
                 </div>
-                <button onClick={() => navigate(`/tasks/${task.id}`)} type='button' className='w-full text-lg font-bold gap-1 bg-primary rounded-lg text-white flex justify-center items-center py-2 cursor-pointer hover:bg-primary/80 transition-all duration-200'>
+
+                {/* View More button */}
+                <button
+                    onClick={() => navigate(`/tasks/${task.id}`)}
+                    type="button"
+                    className="flex w-full items-center justify-center gap-1 rounded-lg bg-primary py-2 text-base font-bold text-white transition-all duration-200 hover:bg-primary/80 sm:text-lg"
+                >
                     View More
 
                     <svg
@@ -215,11 +249,10 @@ function TaskCard({ task }) {
                         <path d="M5 12h14" />
                         <path d="m12 5 7 7-7 7" />
                     </svg>
-
                 </button>
             </div>
         </div>
-    )
+    );
 }
 
-export default TaskCard
+export default TaskCard;

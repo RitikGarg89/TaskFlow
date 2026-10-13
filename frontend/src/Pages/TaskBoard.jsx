@@ -426,7 +426,7 @@ function TaskBoard() {
 
                 {/* Task cards */}
                 {filteredTasks.length > 0 ? (
-                    <div className="grid min-w-0 grid-cols-1 justify-items-stretch gap-3 sm:grid-cols-2 md:gap-4 xl:grid-cols-3">
+                    <div className="grid min-w-0 grid-cols-1 justify-items-stretch gap-3 sm:grid-cols-2 md:gap-4 lg:grid-cols-3">
                         {filteredTasks.map((task) => (
                             <div key={task.id} className="min-w-0 w-full">
                                 <TaskCard task={task} />
