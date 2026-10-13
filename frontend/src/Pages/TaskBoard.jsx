@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import TaskCard from '../Components/TaskCard';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
@@ -16,18 +16,20 @@ function TaskBoard() {
     const [search, setSearch] = useState("");
     const [priority, setPriority] = useState("all");
     const [status, setStatus] = useState("all");
-    const filteredTasks = userTasks.filter((task) => {
-        const matchesSearch =
-            task.title.toLowerCase().includes(search.toLowerCase());
+    const filteredTasks = useMemo(() => {
+        return userTasks.filter((task) => {
+            const matchesSearch =
+                task.title.toLowerCase().includes(search.toLowerCase());
 
-        const matchesPriority =
-            priority === "all" || task.priority === priority;
+            const matchesPriority =
+                priority === "all" || task.priority === priority;
 
-        const matchesStatus =
-            status === "all" || task.status === status;
+            const matchesStatus =
+                status === "all" || task.status === status;
 
-        return matchesSearch && matchesPriority && matchesStatus;
-    });
+            return matchesSearch && matchesPriority && matchesStatus;
+        });
+    }, [userTasks, search, priority, status]);
 
     const statCards = [
         {
@@ -151,7 +153,7 @@ function TaskBoard() {
     const greeting = getGreeting()
 
     return (
-        <div className='w-[1440px] px-6 flex flex-col gap-10 mx-auto my-10'>
+        <div className='w-full min-w-[360px] max-w-[1440px] sm:px-2 lg:px-4 flex flex-col gap-10 mx-auto my-10'>
             <div className='space-y-2'>
                 <p className='font-semibold text-xl text-slate-600 tracking-wide'>{formattedDate}</p>
                 <h1 className='font-semibold text-5xl'>{greeting}</h1>
@@ -349,7 +351,7 @@ function TaskBoard() {
                         )}
                     </div>
                 </div>
-                <div className='grid grid-cols-3 mt-5 gap-4 justify-items-center'>
+                <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 justify-items-center'>
                     {
                         filteredTasks.map((task) => (
                             <TaskCard key={task.id} task={task} />
