@@ -1,4 +1,5 @@
-import React from 'react'
+
+import React from 'react';
 
 function FeatureSection() {
     const features = [
@@ -54,7 +55,6 @@ function FeatureSection() {
             subtitle: "Focus your goals",
             color: "text-purple-500 bg-purple-100",
             icon:
-
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
                     <circle cx="12" cy="12" r="9" stroke="#A78BFA" strokeWidth="1.8" />
                     <circle cx="12" cy="12" r="5.8" stroke="#7C3AED" strokeWidth="1.8" />
@@ -67,21 +67,37 @@ function FeatureSection() {
     ];
 
     return (
-        <div className="flex flex-row gap-2 w-full my-4 mx-6 justify-center items-center ">
+        <div className="my-4 grid w-full min-w-0 grid-cols-1 items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
             {features.map((feature) => (
-                <div className='border border-border bg-white shadow-xl shadow-card rounded-lg p-4 w-full flex gap-4' key={feature.id}>
-                    <div className={`w-12 h-12 ${feature.color} rounded-full p-2 flex items-center justify-center`}>{feature.icon}</div>
-                    <div className='flex flex-col w-[80%] gap-2'>
+                <div
+                    className="flex min-w-0 items-start gap-3 rounded-lg border border-border bg-white p-4 shadow-xl shadow-card sm:gap-4 sm:p-5"
+                    key={feature.id}
+                >
+                    <div
+                        className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full p-2 ${feature.color}`}
+                    >
+                        {feature.icon}
+                    </div>
+
+                    <div className="flex min-w-0 flex-1 flex-col gap-2">
                         <div>
-                            <h1 className='text-2xl font-bold text-slate-900'>{feature.title}</h1>
-                            <p className='text-xl text-slate-900'>{feature.subtitle}</p>
+                            <h2 className="break-words text-xl font-bold text-slate-900 sm:text-2xl">
+                                {feature.title}
+                            </h2>
+
+                            <p className="break-words text-base text-slate-900 sm:text-lg">
+                                {feature.subtitle}
+                            </p>
                         </div>
-                        <p className='text-sm text-slate-600'>{feature.description}</p>
+
+                        <p className="break-words text-sm leading-relaxed text-slate-600">
+                            {feature.description}
+                        </p>
                     </div>
                 </div>
             ))}
         </div>
-    )
+    );
 }
 
-export default FeatureSection
+export default FeatureSection;

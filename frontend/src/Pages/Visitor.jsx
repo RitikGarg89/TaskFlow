@@ -1,16 +1,17 @@
-import React from 'react'
-import HeroSection from '../Components/HeroSection'
-import FeatureSection from '../Components/FeatureSection'
-import WhyChooseSection from '../Components/WhyChooseSection'
+
+import React from 'react';
+import HeroSection from '../Components/HeroSection';
+import FeatureSection from '../Components/FeatureSection';
+import WhyChooseSection from '../Components/WhyChooseSection';
 
 function Visitor() {
     return (
-        <div className='w-[1440px] flex flex-col gap-32 mx-auto my-10'>
+        <div className="mx-auto my-6 flex w-full min-w-0 max-w-[1440px] flex-col gap-16 px-4 sm:my-8 sm:gap-20 sm:px-6 lg:my-10 lg:gap-32 lg:px-8">
             <HeroSection />
             <FeatureSection />
             <WhyChooseSection />
         </div>
-    )
+    );
 }
 
-export default Visitor
+export default Visitor;

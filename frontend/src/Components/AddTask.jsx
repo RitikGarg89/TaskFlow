@@ -23,8 +23,8 @@ function AddTask() {
     };
 
     return (
-        <div className="flex flex-col justify-center items-center w-full h-screen">
-            <div className="flex justify-center w-[440px] px-4 py-8">
+        <div className="flex min-h-[calc(100vh-5rem)] w-full min-w-0 items-start justify-center px-4 py-8 sm:items-center sm:px-6 sm:py-10 lg:px-8">
+            <div className="flex w-full min-w-0 max-w-[440px] justify-center">
                 <TaskForm
                     submitLabel="Create Task"
                     onSubmit={handleAddTask}
