@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { updateTask, deleteTask } from "../Features/TaskSlice";
@@ -311,7 +312,13 @@ function ViewTask() {
                                 <button
                                     key={status.value}
                                     type="button"
-                                    onClick={() => setCurrentStatus(status.value)}
+                                    onClick={() => {
+                                        setCurrentStatus(status.value)
+                                        dispatch(updateTask({
+                                            id: task.id,
+                                            updates: { status: status.value },
+                                        }))
+                                    }}
                                     className={`flex items-center gap-3 rounded-xl border p-4 ${isSelected
                                         ? status.selected
                                         : "border-slate-200 bg-white"
