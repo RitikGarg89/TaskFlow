@@ -225,7 +225,10 @@ function ViewTask() {
                     <p className='font-semibold text-md'>Back to home</p>
                 </div>
                 <div className='flex flex-row justify-center items-center gap-2'>
-                    <div className='flex flex-row justify-center items-center gap-2 border-2 px-4 py-2 rounded-lg bg-white border-border '>
+                    <button type='button' onClick={() => {
+                        navigate(`/task/${task.id}/edit`)
+                    }}
+                        className='flex flex-row justify-center items-center gap-2 border-2 px-4 py-2 rounded-lg bg-white border-border '>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="20"
@@ -241,8 +244,11 @@ function ViewTask() {
                             <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L8 18l-4 1 1-4Z" />
                         </svg>
                         <p>Edit</p>
-                    </div>
-                    <div className='flex flex-row justify-center text-red-500 items-center gap-2 border-2 px-4 py-2 rounded-lg bg-white border-red-400 '>
+                    </button>
+                    <button type='button' onClick={() => {
+                        dispatch(deleteTask(task.id))
+                        navigate("/")
+                    }} className='flex flex-row justify-center text-red-500 items-center gap-2 border-2 px-4 py-2 rounded-lg bg-white border-red-400 '>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="20"
@@ -261,7 +267,7 @@ function ViewTask() {
                             <path d="M14 11v5" />
                         </svg>
                         <p>Delete</p>
-                    </div>
+                    </button>
                 </div>
 
             </div>
@@ -294,7 +300,7 @@ function ViewTask() {
                 </div>
                 <div className='flex flex-col gap-2'>
                     <p className='font-semibold text-lg'>Task Detail</p>
-                    <p className='text-sm text-gray-500'>{task.description}</p>
+                    <p className='text-sm overflow-x-auto text-gray-500'>{task.description}</p>
                 </div>
                 <div className='h-divider border-t-2 border-border'></div>
                 <div className='flex flex-col gap-2'>
