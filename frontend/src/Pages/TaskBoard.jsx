@@ -13,8 +13,21 @@ function TaskBoard() {
     const today = new Date();
 
     const [showFilters, setShowFilters] = useState(false);
+    const [search, setSearch] = useState("");
     const [priority, setPriority] = useState("all");
     const [status, setStatus] = useState("all");
+    const filteredTasks = userTasks.filter((task) => {
+        const matchesSearch =
+            task.title.toLowerCase().includes(search.toLowerCase());
+
+        const matchesPriority =
+            priority === "all" || task.priority === priority;
+
+        const matchesStatus =
+            status === "all" || task.status === status;
+
+        return matchesSearch && matchesPriority && matchesStatus;
+    });
 
     const statCards = [
         {
@@ -187,6 +200,8 @@ function TaskBoard() {
 
                             <input
                                 type="search"
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
                                 placeholder="Search tasks..."
                                 className="w-full rounded-xl border border-slate-200 py-3 pl-10 pr-3 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                             />
@@ -336,7 +351,7 @@ function TaskBoard() {
                 </div>
                 <div className='grid grid-cols-3 mt-5 gap-4 justify-items-center'>
                     {
-                        userTasks.map((task) => (
+                        filteredTasks.map((task) => (
                             <TaskCard key={task.id} task={task} />
                         ))
                     }
