@@ -1,4 +1,5 @@
-import { useState } from 'react'
+
+import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { updateTask, deleteTask } from "../Features/TaskSlice";
@@ -10,6 +11,7 @@ function ViewTask() {
 
     const tasks = useSelector((state) => state.tasks.tasks);
     const { user } = useSelector((state) => state.auth);
+
     const task = tasks.find(
         (item) =>
             String(item.id) === taskId &&
@@ -24,22 +26,28 @@ function ViewTask() {
     // Handle invalid or missing task IDs
     if (!task) {
         return (
-            <div className="flex flex-col items-center gap-4 p-8">
-                <h2 className="text-xl font-semibold">
-                    Task not found
-                </h2>
+            <div className="flex min-h-[calc(100vh-5rem)] w-full min-w-0 items-center justify-center px-4 py-8 sm:px-6 lg:px-8">
+                <div className="w-full max-w-md rounded-2xl border border-border bg-white p-5 shadow-card sm:p-8">
+                    <h2 className="mb-2 text-xl font-bold text-slate-800 sm:text-2xl">
+                        Task not found
+                    </h2>
 
-                <button
-                    onClick={() => navigate("/")}
-                    className="rounded-lg bg-blue-600 px-4 py-2 text-white"
-                >
-                    Back to Home
-                </button>
+                    <p className="mb-6 text-sm leading-6 text-gray-500">
+                        This task doesn't exist or you don't have permission
+                        to access it.
+                    </p>
+
+                    <button
+                        type="button"
+                        onClick={() => navigate("/")}
+                        className="w-full rounded-lg bg-blue-600 px-4 py-3 font-semibold text-white transition-colors hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 sm:w-auto"
+                    >
+                        Back to Home
+                    </button>
+                </div>
             </div>
         );
     }
-
-    // Keep your existing priority and statuses arrays below
 
     const priority = {
         high: {
@@ -188,7 +196,6 @@ function ViewTask() {
         },
     ];
 
-
     const date = task.createdAt ? new Date(task.createdAt) : null;
 
     const formattedDate =
@@ -205,9 +212,14 @@ function ViewTask() {
         statuses[0];
 
     return (
-        <div className='min-w-[440px] w-[640px] h-fit flex flex-col items-center justify-center gap-2'>
-            <div className='flex flex-row items-center justify-between w-full'>
-                <div onClick={() => navigate("/")} className='flex flex-row text-primary hover:text-primary-hover cursor-pointer items-center justify-center gap-2'>
+        <div className="mx-auto my-6 flex w-full min-w-0 max-w-[1440px] flex-col gap-4 px-4 sm:my-8 sm:gap-6 sm:px-6 lg:my-10 lg:px-8">
+            {/* Page actions */}
+            <div className="flex min-w-0 flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <button
+                    type="button"
+                    onClick={() => navigate("/")}
+                    className="flex w-fit min-w-0 items-center gap-2 text-left text-primary transition-colors hover:text-primary-hover"
+                >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="24"
@@ -218,17 +230,22 @@ function ViewTask() {
                         strokeWidth="2"
                         strokeLinecap="round"
                         strokeLinejoin="round"
+                        aria-hidden="true"
                     >
                         <path d="m12 19-7-7 7-7" />
                         <path d="M19 12H5" />
                     </svg>
-                    <p className='font-semibold text-md'>Back to home</p>
-                </div>
-                <div className='flex flex-row justify-center items-center gap-2'>
-                    <button type='button' onClick={() => {
-                        navigate(`/task/${task.id}/edit`)
-                    }}
-                        className='flex flex-row justify-center items-center gap-2 border-2 px-4 py-2 rounded-lg bg-white border-border '>
+                    <span className="text-sm font-semibold sm:text-base">
+                        Back to home
+                    </span>
+                </button>
+
+                <div className="grid w-full grid-cols-2 gap-2 sm:w-auto sm:gap-3">
+                    <button
+                        type="button"
+                        onClick={() => navigate(`/task/${task.id}/edit`)}
+                        className="flex min-w-0 items-center justify-center gap-2 rounded-lg border-2 border-border bg-white px-3 py-2 text-sm transition-colors hover:bg-slate-50 sm:px-4 sm:text-base"
+                    >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="20"
@@ -239,16 +256,22 @@ function ViewTask() {
                             strokeWidth="2"
                             strokeLinecap="round"
                             strokeLinejoin="round"
+                            aria-hidden="true"
                         >
                             <path d="M12 20h9" />
                             <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L8 18l-4 1 1-4Z" />
                         </svg>
-                        <p>Edit</p>
+                        <span>Edit</span>
                     </button>
-                    <button type='button' onClick={() => {
-                        dispatch(deleteTask(task.id))
-                        navigate("/")
-                    }} className='flex flex-row justify-center text-red-500 items-center gap-2 border-2 px-4 py-2 rounded-lg bg-white border-red-400 '>
+
+                    <button
+                        type="button"
+                        onClick={() => {
+                            dispatch(deleteTask(task.id));
+                            navigate("/");
+                        }}
+                        className="flex min-w-0 items-center justify-center gap-2 rounded-lg border-2 border-red-400 bg-white px-3 py-2 text-sm text-red-500 transition-colors hover:bg-red-50 sm:px-4 sm:text-base"
+                    >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="20"
@@ -259,6 +282,7 @@ function ViewTask() {
                             strokeWidth="2"
                             strokeLinecap="round"
                             strokeLinejoin="round"
+                            aria-hidden="true"
                         >
                             <path d="M3 6h18" />
                             <path d="M8 6V4h8v2" />
@@ -266,87 +290,124 @@ function ViewTask() {
                             <path d="M10 11v5" />
                             <path d="M14 11v5" />
                         </svg>
-                        <p>Delete</p>
+                        <span>Delete</span>
                     </button>
                 </div>
-
             </div>
-            <div className='w-full flex flex-col bg-white shadow-card border-2 border-border p-4 rounded-lg gap-4'>
-                <div className='flex flex-row justify-between items-start gap-2'>
-                    <div>
-                        <p className='text-2xl font-bold text-slate-700'>{task.title}</p>
-                        <p className='text-sm font-semibold text-gray-500'>Created on {formattedDate}</p>
+
+            {/* Task details */}
+            <div className="flex w-full min-w-0 flex-col gap-5 rounded-xl border-2 border-border bg-white p-4 shadow-card sm:gap-6 sm:p-6 lg:p-8">
+                <div className="flex min-w-0 flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                    <div className="min-w-0 flex-1">
+                        <h1 className="break-words text-xl font-bold text-slate-700 sm:text-2xl lg:text-3xl">
+                            {task.title}
+                        </h1>
+
+                        <p className="mt-2 text-sm font-semibold text-gray-500">
+                            Created on {formattedDate}
+                        </p>
                     </div>
-                    <div className='flex flex-col justify-center items-end gap-2'>
-                        <div className={`px-3 py-1 rounded-xl ${priority[task.priority]?.color} flex justify-center items-center`}>
-                            {priority[task.priority]?.icon}
-                            <span
-                                className={`ml-2 font-medium text-sm ${priority[task.priority]?.color}
-                        }`}
-                            >
-                                {priority[task.priority]?.label}
+
+                    <div className="flex min-w-0 flex-wrap items-center gap-2 sm:flex-col sm:items-end">
+                        <div
+                            className={`flex max-w-full items-center gap-2 rounded-xl px-3 py-1 ${priority[task.priority]?.color ?? priority.medium.color}`}
+                        >
+                            {priority[task.priority]?.icon ?? priority.medium.icon}
+                            <span className="break-words text-sm font-medium">
+                                {priority[task.priority]?.label ?? priority.medium.label}
                             </span>
                         </div>
-                        <div className={`px-3 py-1 rounded-xl ${selectedStatus?.color} flex justify-center items-center`}>
-                            {selectedStatus?.icon}
-                            <span
-                                className={`ml-2 font-medium text-sm ${selectedStatus?.color}
-                            }`}
-                            >
-                                {selectedStatus?.label}
+
+                        <div
+                            className={`flex max-w-full items-center gap-2 rounded-xl px-3 py-1 ${selectedStatus.color}`}
+                        >
+                            {selectedStatus.icon}
+                            <span className="text-sm font-medium">
+                                {selectedStatus.label}
                             </span>
                         </div>
                     </div>
                 </div>
-                <div className='flex flex-col gap-2'>
-                    <p className='font-semibold text-lg'>Task Detail</p>
-                    <p className='text-sm overflow-x-auto text-gray-500'>{task.description}</p>
+
+                <div className="border-t-2 border-border" />
+
+                {/* Description */}
+                <div className="flex min-w-0 flex-col gap-2">
+                    <h2 className="text-lg font-semibold sm:text-xl">
+                        Task Detail
+                    </h2>
+
+                    <p className="min-w-0 whitespace-pre-wrap break-words text-sm leading-6 text-gray-500 sm:text-base">
+                        {task.description}
+                    </p>
                 </div>
-                <div className='h-divider border-t-2 border-border'></div>
-                <div className='flex flex-col gap-2'>
-                    <p className='font-semibold text-lg'>Task Status</p>
-                    <p className='text-sm text-gray-500'>Update the current status of this task</p>
+
+                <div className="border-t-2 border-border" />
+
+                {/* Task status */}
+                <div className="flex min-w-0 flex-col gap-2">
+                    <h2 className="text-lg font-semibold sm:text-xl">
+                        Task Status
+                    </h2>
+
+                    <p className="text-sm leading-6 text-gray-500 sm:text-base">
+                        Update the current status of this task.
+                    </p>
+
                     <div
                         role="group"
-                        aria-labelledby="priority-label"
-                        className="grid grid-cols-3 gap-3"
+                        aria-label="Task status"
+                        className="mt-2 grid grid-cols-1 gap-3 sm:grid-cols-3"
                     >
                         {statuses.map((status) => {
-                            const isSelected = status.value === currentStatus;
+                            const isSelected =
+                                status.value === currentStatus;
 
                             return (
                                 <button
                                     key={status.value}
                                     type="button"
+                                    aria-pressed={isSelected}
                                     onClick={() => {
-                                        setCurrentStatus(status.value)
-                                        dispatch(updateTask({
-                                            id: task.id,
-                                            updates: { status: status.value },
-                                        }))
+                                        setCurrentStatus(status.value);
+
+                                        dispatch(
+                                            updateTask({
+                                                id: task.id,
+                                                updates: {
+                                                    status: status.value,
+                                                },
+                                            })
+                                        );
                                     }}
-                                    className={`flex items-center gap-3 rounded-xl border p-4 ${isSelected
+                                    className={`flex min-w-0 items-center gap-3 rounded-xl border p-3 text-left transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 sm:p-4 ${isSelected
                                         ? status.selected
-                                        : "border-slate-200 bg-white"
+                                        : "border-slate-200 bg-white hover:border-slate-300"
                                         }`}
                                 >
-                                    <span className={`rounded-full p-1 ${status.color}`}>
+                                    <span
+                                        className={`flex shrink-0 items-center justify-center rounded-full p-1 ${status.color}`}
+                                    >
                                         {status.icon}
                                     </span>
 
-                                    <div className="text-left">
-                                        <p className="font-medium">{status.label}</p>
-                                        <p className="text-sm text-slate-500">
+                                    <span className="min-w-0">
+                                        <span className="block break-words font-medium">
+                                            {status.label}
+                                        </span>
+                                        <span className="mt-1 block text-sm text-slate-500">
                                             {status.description}
-                                        </p>
-                                    </div>
+                                        </span>
+                                    </span>
                                 </button>
                             );
                         })}
                     </div>
                 </div>
-                <div className='flex p-2 gap-2 bg-blue-50 border-2 border-blue-300 rounded-xl'>
-                    <div className='text-blue-500'>
+
+                {/* Information message */}
+                <div className="flex min-w-0 items-start gap-2 rounded-xl border-2 border-blue-300 bg-blue-50 p-3 text-sm leading-6 sm:p-4 sm:text-base">
+                    <span className="shrink-0 text-blue-500">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="20"
@@ -363,12 +424,17 @@ function ViewTask() {
                             <path d="M12 16v-4" />
                             <path d="M12 8h.01" />
                         </svg>
-                    </div>
-                    <p>Click the 'Edit' Button to modify this task. You can also update the status or delete this task using the button above.  </p>
+                    </span>
+
+                    <p className="min-w-0 break-words">
+                        Click the 'Edit' button to modify this task. You can
+                        also update the status or delete this task using the
+                        buttons above.
+                    </p>
                 </div>
             </div>
-        </div >
-    )
+        </div>
+    );
 }
 
-export default ViewTask
+export default ViewTask;
