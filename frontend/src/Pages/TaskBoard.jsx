@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react'
+
+import { useState, useMemo } from 'react';
 import TaskCard from '../Components/TaskCard';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
@@ -6,20 +7,25 @@ import { useSelector } from "react-redux";
 function TaskBoard() {
     const tasks = useSelector((state) => state.tasks.tasks);
     const user = useSelector((state) => state.auth.user);
-    const userTasks = tasks.filter(
-        (task) => task.userId === user?.id
-    );
     const navigate = useNavigate();
+
     const today = new Date();
 
     const [showFilters, setShowFilters] = useState(false);
     const [search, setSearch] = useState("");
     const [priority, setPriority] = useState("all");
     const [status, setStatus] = useState("all");
+
+    const userTasks = useMemo(
+        () => tasks.filter((task) => task.userId === user?.id),
+        [tasks, user?.id]
+    );
+
     const filteredTasks = useMemo(() => {
         return userTasks.filter((task) => {
-            const matchesSearch =
-                task.title.toLowerCase().includes(search.toLowerCase());
+            const matchesSearch = task.title
+                .toLowerCase()
+                .includes(search.toLowerCase().trim());
 
             const matchesPriority =
                 priority === "all" || task.priority === priority;
@@ -60,7 +66,9 @@ function TaskBoard() {
         {
             id: 2,
             title: "Pending",
-            count: userTasks.filter((task) => task.status === "pending").length,
+            count: userTasks.filter(
+                (task) => task.status === "pending"
+            ).length,
             borderColor: "border-amber-500",
             icon:
                 <div className="rounded-xl bg-red-100 p-2 text-red-300">
@@ -83,7 +91,9 @@ function TaskBoard() {
         {
             id: 3,
             title: "In Progress",
-            count: userTasks.filter((task) => task.status === "in-progress").length,
+            count: userTasks.filter(
+                (task) => task.status === "in-progress"
+            ).length,
             borderColor: "border-yellow-500",
             icon: <div className="rounded-xl bg-amber-100 p-2 text-amber-300">
                 <svg
@@ -106,7 +116,9 @@ function TaskBoard() {
         {
             id: 4,
             title: "Completed",
-            count: userTasks.filter((task) => task.status === "completed").length,
+            count: userTasks.filter(
+                (task) => task.status === "completed"
+            ).length,
             borderColor: "border-green-500",
             icon:
                 <div className="rounded-xl bg-green-300 p-2 text-green-600">
@@ -127,8 +139,7 @@ function TaskBoard() {
                     </svg>
                 </div>
         },
-    ]
-
+    ];
 
     const formattedDate = today.toLocaleDateString("en-US", {
         weekday: "long",
@@ -137,52 +148,98 @@ function TaskBoard() {
     });
 
     const getGreeting = () => {
-        const hour = new Date().getHours()
+        const hour = today.getHours();
+
         if (hour >= 5 && hour < 12) {
             return "Good morning! 🌅";
         }
+
         if (hour >= 12 && hour < 17) {
             return "Good afternoon! ☀️";
         }
+
         if (hour >= 17 && hour < 21) {
             return "Good evening! 🌇";
         }
-        return "Good night! 🌙";
-    }
 
-    const greeting = getGreeting()
+        return "Good night! 🌙";
+    };
+
+    const greeting = getGreeting();
+
+    const clearFilters = () => {
+        setSearch("");
+        setPriority("all");
+        setStatus("all");
+    };
 
     return (
-        <div className='w-full min-w-[360px] max-w-[1440px] sm:px-2 lg:px-4 flex flex-col gap-10 mx-auto my-10'>
-            <div className='space-y-2'>
-                <p className='font-semibold text-xl text-slate-600 tracking-wide'>{formattedDate}</p>
-                <h1 className='font-semibold text-5xl'>{greeting}</h1>
-                <p className='font-light text-slate-500 text-2xl'>Ready to make today productive. Here's your task overview.</p>
-            </div>
+        <div className="mx-auto my-6 flex w-full min-w-0 max-w-[1440px] flex-col gap-6 px-4 sm:my-8 sm:gap-8 sm:px-6 lg:my-10 lg:gap-10 lg:px-8">
 
-            <div className='grid grid-cols-2 xl:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 sm:grid-cols-1 gap-3'>
-                {
-                    statCards.map((card) => (
-                        <div key={card.id} className={`flex items-center rounded-2xl bg-blue-50 gap-2 p-2 border-l-8 ${card.borderColor}`}>
-                            {card.icon}
-                            <div>
-                                <p className="">{card.title}</p>
-                                <p className="font-bold">{card.count}</p>
-                            </div>
+            {/* Greeting section */}
+            <section className="min-w-0 space-y-2">
+                <p className="break-words text-sm font-semibold tracking-wide text-slate-600 sm:text-base lg:text-xl">
+                    {formattedDate}
+                </p>
+
+                <h1 className="break-words text-3xl font-semibold text-slate-900 sm:text-4xl lg:text-5xl">
+                    {greeting}
+                </h1>
+
+                <p className="max-w-3xl text-base font-light leading-relaxed text-slate-500 sm:text-lg lg:text-2xl">
+                    Ready to make today productive. Here's your task overview.
+                </p>
+            </section>
+
+            {/* Statistics cards */}
+            <section
+                aria-label="Task statistics"
+                className="grid min-w-0 grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4"
+            >
+                {statCards.map((card) => (
+                    <div
+                        key={card.id}
+                        className={`flex min-w-0 items-center gap-3 rounded-2xl border-l-8 bg-blue-50 p-3 sm:p-4 ${card.borderColor}`}
+                    >
+                        {card.icon}
+
+                        <div className="min-w-0">
+                            <p className="break-words text-sm text-slate-600 sm:text-base">
+                                {card.title}
+                            </p>
+
+                            <p className="text-2xl font-bold text-slate-900">
+                                {card.count}
+                            </p>
                         </div>
-                    ))
-                }
-            </div>
-            <div className='flex flex-col gap-5'>
-                <div className='flex justify-between items-center'>
-                    <h1 className='text-2xl font-semibold'>All Tasks</h1>
-                    <button onClick={() => navigate('/task/add')} className='px-3 py-2 bg-blue-600 text-xl text-white rounded-lg hover:bg-blue-700 transition-all flex items-center gap-2'>+ Add Task</button>
+                    </div>
+                ))}
+            </section>
+
+            {/* Tasks section */}
+            <section className="flex min-w-0 flex-col gap-5">
+
+                {/* Section heading and add button */}
+                <div className="flex min-w-0 flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
+                    <h2 className="text-2xl font-semibold text-slate-900">
+                        All Tasks
+                    </h2>
+
+                    <button
+                        type="button"
+                        onClick={() => navigate('/task/add')}
+                        className="flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-3 text-base font-medium text-white transition-all hover:bg-blue-700 sm:w-auto sm:px-3 sm:py-2 sm:text-lg"
+                    >
+                        + Add Task
+                    </button>
                 </div>
-                <div className='bg-white shadow-card rounded-2xl p-4 space-y-4'>
-                    {/* Search bar and Filter */}
-                    <div className="relative flex items-center gap-3">
+
+                {/* Search and filter container */}
+                <div className="relative min-w-0 rounded-2xl bg-white p-3 shadow-card sm:p-4">
+                    <div className="flex min-w-0 flex-col items-stretch gap-3 sm:flex-row sm:items-center">
+
                         {/* Search bar */}
-                        <div className="relative flex-1">
+                        <div className="relative min-w-0 flex-1">
                             <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -205,15 +262,17 @@ function TaskBoard() {
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                                 placeholder="Search tasks..."
-                                className="w-full rounded-xl border border-slate-200 py-3 pl-10 pr-3 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                                aria-label="Search tasks"
+                                className="w-full min-w-0 rounded-xl border border-slate-200 py-3 pl-10 pr-3 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                             />
                         </div>
 
                         {/* Filter button */}
                         <button
                             type="button"
-                            onClick={() => setShowFilters(!showFilters)}
-                            className={`flex shrink-0 items-center gap-2 rounded-xl border px-4 py-3 text-sm font-medium transition ${showFilters
+                            onClick={() => setShowFilters((prev) => !prev)}
+                            aria-expanded={showFilters}
+                            className={`flex shrink-0 items-center justify-center gap-2 rounded-xl border px-4 py-3 text-sm font-medium transition ${showFilters
                                 ? "border-blue-300 bg-blue-50 text-blue-600"
                                 : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
                                 }`}
@@ -236,131 +295,167 @@ function TaskBoard() {
                                 <circle cx="15" cy="7" r="2" />
                                 <circle cx="9" cy="17" r="2" />
                             </svg>
+
                             Filter
                         </button>
+                    </div>
 
-                        {/* Filter dropdown */}
-                        {showFilters && (
-                            <div className="absolute right-0 top-full z-50 mt-2 w-80 max-w-[calc(100vw-2rem)] rounded-xl border border-slate-200 bg-white p-5 shadow-xl">
+                    {/* Filter panel */}
+                    {showFilters && (
+                        <div className="absolute right-0 top-full z-50 mt-2 w-80 max-w-[calc(100vw-2rem)] rounded-xl border border-slate-200 bg-white p-4 shadow-xl sm:p-5">
 
-                                {/* Header */}
-                                <div className="mb-5 flex items-center justify-between">
-                                    <p className="text-lg font-semibold text-slate-800">
-                                        Filter Tasks
-                                    </p>
+                            {/* Filter header */}
+                            <div className="mb-5 flex items-center justify-between gap-3">
+                                <p className="text-lg font-semibold text-slate-800">
+                                    Filter Tasks
+                                </p>
 
-                                    <button
-                                        type="button"
-                                        onClick={() => setShowFilters(false)}
-                                        className="rounded-lg p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700"
-                                        aria-label="Close filters"
+                                <button
+                                    type="button"
+                                    onClick={() => setShowFilters(false)}
+                                    className="shrink-0 rounded-lg p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700"
+                                    aria-label="Close filters"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="20"
+                                        height="20"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
                                     >
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            width="20"
-                                            height="20"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth="2"
-                                            strokeLinecap="round"
+                                        <path d="m18 6-12 12M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </div>
+
+                            {/* Priority filters */}
+                            <div className="mb-5">
+                                <p className="mb-3 text-sm font-semibold text-slate-700">
+                                    Filter by Priority
+                                </p>
+
+                                <div className="flex flex-wrap gap-2">
+                                    {[
+                                        { label: "All", value: "all", color: "blue" },
+                                        { label: "High", value: "high", color: "red" },
+                                        { label: "Medium", value: "medium", color: "amber" },
+                                        { label: "Low", value: "low", color: "green" },
+                                    ].map((item) => (
+                                        <button
+                                            key={item.value}
+                                            type="button"
+                                            onClick={() => setPriority(item.value)}
+                                            className={`rounded-lg border px-3 py-2 text-sm transition ${priority === item.value
+                                                ? "border-slate-800 bg-slate-800 text-white"
+                                                : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
+                                                }`}
                                         >
-                                            <path d="m18 6-12 12M6 6l12 12" />
-                                        </svg>
-                                    </button>
-                                </div>
-
-                                {/* Priority */}
-                                <div className="mb-5">
-                                    <p className="mb-3 text-sm font-semibold text-slate-700">
-                                        Filter by Priority
-                                    </p>
-
-                                    <div className="flex flex-wrap gap-2">
-                                        {[
-                                            { label: "All", value: "all", color: "blue" },
-                                            { label: "High", value: "high", color: "red" },
-                                            { label: "Medium", value: "medium", color: "amber" },
-                                            { label: "Low", value: "low", color: "green" },
-                                        ].map((item) => (
-                                            <button
-                                                key={item.value}
-                                                type="button"
-                                                onClick={() => setPriority(item.value)}
-                                                className={`rounded-lg border px-3 py-2 text-sm transition ${priority === item.value
-                                                    ? "border-slate-800 bg-slate-800 text-white"
-                                                    : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
-                                                    }`}
-                                            >
-                                                {item.label}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                {/* Status */}
-                                <div className="mb-5">
-                                    <p className="mb-3 text-sm font-semibold text-slate-700">
-                                        Filter by Status
-                                    </p>
-
-                                    <div className="flex flex-wrap gap-2">
-                                        {[
-                                            { label: "All", value: "all" },
-                                            { label: "Pending", value: "pending" },
-                                            { label: "In Progress", value: "in-progress" },
-                                            { label: "Completed", value: "completed" },
-                                        ].map((item) => (
-                                            <button
-                                                key={item.value}
-                                                type="button"
-                                                onClick={() => setStatus(item.value)}
-                                                className={`rounded-lg border px-3 py-2 text-sm transition ${status === item.value
-                                                    ? "border-blue-600 bg-blue-600 text-white"
-                                                    : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
-                                                    }`}
-                                            >
-                                                {item.label}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                {/* Actions */}
-                                <div className="flex items-center justify-between border-t border-slate-100 pt-4">
-                                    <button
-                                        type="button"
-                                        onClick={() => {
-                                            setPriority("all");
-                                            setStatus("all");
-                                        }}
-                                        className="text-sm font-medium text-slate-500 hover:text-slate-800"
-                                    >
-                                        Clear filters
-                                    </button>
-
-                                    <button
-                                        type="button"
-                                        onClick={() => setShowFilters(false)}
-                                        className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700"
-                                    >
-                                        Done
-                                    </button>
+                                            {item.label}
+                                        </button>
+                                    ))}
                                 </div>
                             </div>
-                        )}
+
+                            {/* Status filters */}
+                            <div className="mb-5">
+                                <p className="mb-3 text-sm font-semibold text-slate-700">
+                                    Filter by Status
+                                </p>
+
+                                <div className="flex flex-wrap gap-2">
+                                    {[
+                                        { label: "All", value: "all" },
+                                        { label: "Pending", value: "pending" },
+                                        { label: "In Progress", value: "in-progress" },
+                                        { label: "Completed", value: "completed" },
+                                    ].map((item) => (
+                                        <button
+                                            key={item.value}
+                                            type="button"
+                                            onClick={() => setStatus(item.value)}
+                                            className={`rounded-lg border px-3 py-2 text-sm transition ${status === item.value
+                                                ? "border-blue-600 bg-blue-600 text-white"
+                                                : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
+                                                }`}
+                                        >
+                                            {item.label}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Filter actions */}
+                            <div className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 pt-4">
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setPriority("all");
+                                        setStatus("all");
+                                    }}
+                                    className="text-sm font-medium text-slate-500 hover:text-slate-800"
+                                >
+                                    Clear filters
+                                </button>
+
+                                <button
+                                    type="button"
+                                    onClick={() => setShowFilters(false)}
+                                    className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700"
+                                >
+                                    Done
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+
+                {/* Results count */}
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                    <h3 className="font-semibold text-slate-800">
+                        Your tasks
+                    </h3>
+
+                    <p className="text-sm text-slate-500">
+                        {filteredTasks.length}{" "}
+                        {filteredTasks.length === 1 ? "task" : "tasks"} found
+                    </p>
+                </div>
+
+                {/* Task cards */}
+                {filteredTasks.length > 0 ? (
+                    <div className="grid min-w-0 grid-cols-1 justify-items-stretch gap-3 sm:grid-cols-2 md:gap-4 xl:grid-cols-3">
+                        {filteredTasks.map((task) => (
+                            <div key={task.id} className="min-w-0 w-full">
+                                <TaskCard task={task} />
+                            </div>
+                        ))}
                     </div>
-                </div>
-                <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 justify-items-center'>
-                    {
-                        filteredTasks.map((task) => (
-                            <TaskCard key={task.id} task={task} />
-                        ))
-                    }
-                </div>
-            </div>
+                ) : (
+                    /* Empty state */
+                    <div className="rounded-2xl border border-dashed border-slate-300 bg-white px-4 py-10 text-center sm:py-14">
+                        <h3 className="text-lg font-semibold text-slate-800">
+                            No tasks found
+                        </h3>
+
+                        <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-slate-500">
+                            Try another search or clear your filters to see your tasks.
+                        </p>
+
+                        <button
+                            type="button"
+                            onClick={clearFilters}
+                            className="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700"
+                        >
+                            Clear search and filters
+                        </button>
+                    </div>
+                )}
+            </section>
         </div>
-    )
+    );
 }
 
-export default TaskBoard
+export default TaskBoard;
