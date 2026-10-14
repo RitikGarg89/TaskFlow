@@ -8,6 +8,7 @@ import AppLayout from "./Layouts/AppLayout";
 import ViewTask from './Components/ViewTask'
 import AddTask from './Components/AddTask'
 import EditTask from './Components/EditTask'
+import About from './Components/About'
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { loginSuccess, logout } from "./Features/AuthSlice";
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: "/task/:taskId/edit",
         element: <EditTask />,
+      },
+      {
+        path: "/about",
+        element: <About />,
       }
     ],
   },
