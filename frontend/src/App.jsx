@@ -9,7 +9,7 @@ import ViewTask from './Components/ViewTask'
 import AddTask from './Components/AddTask'
 import EditTask from './Components/EditTask'
 import About from './Components/About'
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { loginSuccess, logout } from "./Features/AuthSlice";
 import { getCurrentUser, isSessionValid, endSession } from "./Utils/UserStorage";
