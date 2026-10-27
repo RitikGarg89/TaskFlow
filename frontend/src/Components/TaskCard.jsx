@@ -229,7 +229,7 @@ function TaskCard({ task }) {
 
                 {/* View More button */}
                 <button
-                    onClick={() => navigate(`/tasks/${task.id}`)}
+                    onClick={() => navigate(`/tasks/${task.id || task._id}`)}
                     type="button"
                     className="flex w-full items-center justify-center gap-1 rounded-lg bg-primary py-2 text-base font-bold text-white transition-all duration-200 hover:bg-primary/80 sm:text-lg"
                 >

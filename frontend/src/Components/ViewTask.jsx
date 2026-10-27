@@ -1,8 +1,9 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { updateTask, deleteTask } from "../Features/TaskSlice";
+import { updateTaskAsync, deleteTaskAsync } from "../Features/TaskSlice";
+import api from "../Utils/api";
 
 function ViewTask() {
     const { taskId } = useParams();
@@ -12,16 +13,47 @@ function ViewTask() {
     const tasks = useSelector((state) => state.tasks.tasks);
     const { user } = useSelector((state) => state.auth);
 
-    const task = tasks.find(
-        (item) =>
-            String(item.id) === taskId &&
-            String(item.userId) === String(user?.id)
-    );
+    const [fetchedTask, setFetchedTask] = useState(null);
+    const [loading, setLoading] = useState(false);
 
-    // Store the current task status
-    const [currentStatus, setCurrentStatus] = useState(
-        task?.status ?? "pending"
-    );
+    const task =
+        tasks.find(
+            (item) =>
+                (String(item.id) === String(taskId) ||
+                    String(item._id) === String(taskId)) &&
+                (String(item.userId) === String(user?.id) ||
+                    String(item.userId) === String(user?._id))
+        ) || fetchedTask;
+
+    const [activeStatus, setActiveStatus] = useState(null);
+    const currentStatus = activeStatus || task?.status || "pending";
+
+    useEffect(() => {
+        let isMounted = true;
+        if (!task && taskId) {
+            api.get(`/tasks/${taskId}`)
+                .then((data) => {
+                    if (isMounted && data.task) {
+                        setFetchedTask(data.task);
+                    }
+                })
+                .catch(() => {})
+                .finally(() => {
+                    if (isMounted) setLoading(false);
+                });
+        }
+        return () => {
+            isMounted = false;
+        };
+    }, [task, taskId]);
+
+    if (loading) {
+        return (
+            <div className="flex min-h-[calc(100vh-5rem)] w-full items-center justify-center">
+                <div className="text-slate-500">Loading task...</div>
+            </div>
+        );
+    }
 
     // Handle invalid or missing task IDs
     if (!task) {
@@ -243,7 +275,7 @@ function ViewTask() {
                 <div className="grid w-full grid-cols-2 gap-2 sm:w-auto sm:gap-3">
                     <button
                         type="button"
-                        onClick={() => navigate(`/task/${task.id}/edit`)}
+                        onClick={() => navigate(`/task/${task.id || task._id}/edit`)}
                         className="flex min-w-0 items-center justify-center gap-2 rounded-lg border-2 border-border bg-white px-3 py-2 text-sm transition-colors hover:bg-slate-50 sm:px-4 sm:text-base"
                     >
                         <svg
@@ -266,9 +298,13 @@ function ViewTask() {
 
                     <button
                         type="button"
-                        onClick={() => {
-                            dispatch(deleteTask(task.id));
-                            navigate("/");
+                        onClick={async () => {
+                            try {
+                                await dispatch(deleteTaskAsync(task.id || task._id)).unwrap();
+                                navigate("/");
+                            } catch (err) {
+                                console.error("Failed to delete task:", err);
+                            }
                         }}
                         className="flex min-w-0 items-center justify-center gap-2 rounded-lg border-2 border-red-400 bg-white px-3 py-2 text-sm text-red-500 transition-colors hover:bg-red-50 sm:px-4 sm:text-base"
                     >
@@ -368,17 +404,23 @@ function ViewTask() {
                                     key={status.value}
                                     type="button"
                                     aria-pressed={isSelected}
-                                    onClick={() => {
-                                        setCurrentStatus(status.value);
+                                    onClick={async () => {
+                                        const prevStatus = currentStatus;
+                                        setActiveStatus(status.value);
 
-                                        dispatch(
-                                            updateTask({
-                                                id: task.id,
-                                                updates: {
-                                                    status: status.value,
-                                                },
-                                            })
-                                        );
+                                        try {
+                                            await dispatch(
+                                                updateTaskAsync({
+                                                    id: task.id || task._id,
+                                                    updates: {
+                                                        status: status.value,
+                                                    },
+                                                })
+                                            ).unwrap();
+                                        } catch (err) {
+                                            console.error("Status update failed:", err);
+                                            setActiveStatus(prevStatus);
+                                        }
                                     }}
                                     className={`flex min-w-0 items-center gap-3 rounded-xl border p-3 text-left transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 sm:p-4 ${isSelected
                                         ? status.selected

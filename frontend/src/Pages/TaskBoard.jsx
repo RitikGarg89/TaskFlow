@@ -1,13 +1,19 @@
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import TaskCard from '../Components/TaskCard';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchTasks } from "../Features/TaskSlice";
 
 function TaskBoard() {
     const tasks = useSelector((state) => state.tasks.tasks);
     const user = useSelector((state) => state.auth.user);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(fetchTasks());
+    }, [dispatch]);
 
     const today = new Date();
 
@@ -17,8 +23,14 @@ function TaskBoard() {
     const [status, setStatus] = useState("all");
 
     const userTasks = useMemo(
-        () => tasks.filter((task) => task.userId === user?.id),
-        [tasks, user?.id]
+        () =>
+            tasks.filter(
+                (task) =>
+                    !user ||
+                    String(task.userId) === String(user?.id) ||
+                    String(task.userId) === String(user?._id)
+            ),
+        [tasks, user]
     );
 
     const filteredTasks = useMemo(() => {
@@ -428,7 +440,7 @@ function TaskBoard() {
                 {filteredTasks.length > 0 ? (
                     <div className="grid min-w-0 grid-cols-1 justify-items-stretch gap-3 sm:grid-cols-2 md:gap-4 lg:grid-cols-3">
                         {filteredTasks.map((task) => (
-                            <div key={task.id} className="min-w-0 w-full">
+                            <div key={task.id || task._id} className="min-w-0 w-full">
                                 <TaskCard task={task} />
                             </div>
                         ))}

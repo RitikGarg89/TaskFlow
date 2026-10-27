@@ -2,10 +2,11 @@ import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../Features/AuthSlice";
-import { endSession } from "../Utils/UserStorage";
+import { clearTasks } from "../Features/TaskSlice";
+import api, { clearToken } from "../Utils/api";
 
 function Navbar() {
-    const { user, isAuthenticated } = useSelector(
+    const { isAuthenticated } = useSelector(
         (state) => state.auth
     );
 
@@ -15,11 +16,17 @@ function Navbar() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
         setProfileOpen(false);
         setMobileMenuOpen(false);
+        try {
+            await api.post("/auth/logout");
+        } catch {
+            // Proceed with local logout regardless of network
+        }
+        clearToken();
         dispatch(logout());
-        endSession();
+        dispatch(clearTasks());
         navigate("/login");
     };
 
