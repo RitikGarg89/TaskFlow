@@ -13,7 +13,7 @@ export const generateToken = (id) => {
 export const sendTokenResponse = (user, statusCode, res, message = "") => {
     const token = generateToken(user._id || user.id);
 
-    const isProduction = process.env.NODE_ENV === "production";
+    const isProduction = true;
     const cookieOptions = {
         httpOnly: true,
         secure: isProduction,
