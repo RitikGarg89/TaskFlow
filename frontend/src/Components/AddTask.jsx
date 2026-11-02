@@ -11,6 +11,7 @@ function AddTask() {
     const [error, setError] = useState("");
 
     const handleAddTask = async (formData) => {
+        if (submitting) return;
         setSubmitting(true);
         setError("");
         try {
@@ -23,7 +24,7 @@ function AddTask() {
     };
 
     return (
-        <div className="flex min-h-[calc(100vh-5rem)] w-full min-w-0 items-start justify-center px-4 py-8 sm:items-center sm:px-6 sm:py-10 lg:px-8">
+        <div className="flex min-h-[calc(100vh-10rem)] w-full min-w-0 items-start justify-center px-4 py-8 sm:items-center sm:px-6 sm:py-10 lg:px-8">
             <div className="flex w-full min-w-0 max-w-[440px] flex-col items-center justify-center">
                 {error && (
                     <div className="mb-4 w-full rounded-xl border border-red-200 bg-red-50 p-3 text-sm font-medium text-red-600">
@@ -31,7 +32,8 @@ function AddTask() {
                     </div>
                 )}
                 <TaskForm
-                    submitLabel={submitting ? "Creating..." : "Create Task"}
+                    submitLabel={submitting ? "Creating Task..." : "Create Task"}
+                    isSubmitting={submitting}
                     onSubmit={handleAddTask}
                 />
             </div>

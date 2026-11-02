@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../Features/AuthSlice";
 import { fetchTasks } from "../Features/TaskSlice";
@@ -8,6 +8,7 @@ import api, { setToken } from "../Utils/api";
 function RegisterForm() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [name, setName] = useState("");
@@ -46,7 +47,8 @@ function RegisterForm() {
 
             dispatch(loginSuccess(data.user));
             dispatch(fetchTasks());
-            navigate("/");
+            const destination = location.state?.from || "/";
+            navigate(destination, { replace: true });
         } catch (err) {
             setErrorMessage(
                 err.message || "Registration failed. Please try again."

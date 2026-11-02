@@ -30,6 +30,7 @@ function EditTask() {
     useEffect(() => {
         let isMounted = true;
         if (!task && taskId) {
+            setLoadingTask(true);
             api.get(`/tasks/${taskId}`)
                 .then((data) => {
                     if (isMounted && data.task) {
@@ -47,6 +48,7 @@ function EditTask() {
     }, [task, taskId]);
 
     const handleUpdateTask = async (formData) => {
+        if (submitting) return;
         setSubmitting(true);
         setError("");
         const targetId = task.id || task._id || taskId;
@@ -68,16 +70,19 @@ function EditTask() {
 
     if (loadingTask) {
         return (
-            <div className="flex min-h-[calc(100vh-5rem)] w-full items-center justify-center">
-                <div className="text-slate-500">Loading task details...</div>
+            <div className="flex min-h-[calc(100vh-10rem)] w-full items-center justify-center p-6">
+                <div className="flex flex-col items-center gap-3 text-slate-500">
+                    <div className="h-8 w-8 animate-spin rounded-full border-2 border-blue-600 border-t-transparent" />
+                    <span>Loading task details...</span>
+                </div>
             </div>
         );
     }
 
     if (!task) {
         return (
-            <div className="flex min-h-[calc(100vh-5rem)] w-full min-w-0 items-center justify-center px-4 py-8 sm:px-6 lg:px-8">
-                <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-5 shadow-card sm:p-8">
+            <div className="flex min-h-[calc(100vh-10rem)] w-full min-w-0 items-center justify-center px-4 py-8 sm:px-6 lg:px-8">
+                <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-card sm:p-8">
                     <h2 className="mb-2 text-xl font-bold text-slate-800 sm:text-2xl">
                         Task Not Found
                     </h2>
@@ -90,7 +95,7 @@ function EditTask() {
                     <button
                         type="button"
                         onClick={() => navigate("/")}
-                        className="w-full rounded-xl bg-blue-600 px-4 py-3 font-semibold text-white transition-colors duration-200 hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 sm:w-auto"
+                        className="w-full rounded-xl bg-blue-600 px-4 py-2.5 font-semibold text-white transition-colors duration-200 hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 sm:w-auto"
                     >
                         Back to Tasks
                     </button>
@@ -100,7 +105,7 @@ function EditTask() {
     }
 
     return (
-        <div className="flex min-h-[calc(100vh-5rem)] w-full min-w-0 items-start justify-center px-4 py-8 sm:items-center sm:px-6 sm:py-10 lg:px-8">
+        <div className="flex min-h-[calc(100vh-10rem)] w-full min-w-0 items-start justify-center px-4 py-8 sm:items-center sm:px-6 sm:py-10 lg:px-8">
             <div className="flex w-full min-w-0 max-w-[440px] flex-col items-center justify-center">
                 {error && (
                     <div className="mb-4 w-full rounded-xl border border-red-200 bg-red-50 p-3 text-sm font-medium text-red-600">
@@ -114,7 +119,8 @@ function EditTask() {
                         description: task.description,
                         priority: task.priority,
                     }}
-                    submitLabel={submitting ? "Saving..." : "Save Changes"}
+                    submitLabel={submitting ? "Saving Changes..." : "Save Changes"}
+                    isSubmitting={submitting}
                     onSubmit={handleUpdateTask}
                 />
             </div>

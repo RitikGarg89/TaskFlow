@@ -10,7 +10,6 @@ function Footer() {
         <footer className="w-full border-t border-slate-200 bg-slate-50">
             {/* Main footer */}
             <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-8 px-4 py-10 sm:grid-cols-2 sm:gap-10 sm:px-6 md:grid-cols-3 md:py-12">
-
                 {/* Brand */}
                 <div className="min-w-0">
                     <Link
@@ -44,7 +43,7 @@ function Footer() {
                                 to="/"
                                 className="transition hover:text-blue-600"
                             >
-                                Home
+                                {isAuthenticated ? "Dashboard" : "Home"}
                             </Link>
                         </li>
 
@@ -84,7 +83,7 @@ function Footer() {
 
                     {isAuthenticated ? (
                         <Link
-                            to="/profile"
+                            to="/"
                             className="mt-4 inline-flex max-w-full items-center justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-center font-medium text-white transition hover:bg-blue-700"
                         >
                             Go to Dashboard

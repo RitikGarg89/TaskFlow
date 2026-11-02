@@ -1,11 +1,9 @@
-
 import { useEffect, useState } from "react";
-
-// Keep your existing priorities array here.
 
 function TaskForm({
     initialValues = {},
     submitLabel = "Create Task",
+    isSubmitting = false,
     onSubmit,
 }) {
     const [title, setTitle] = useState(initialValues.title ?? "");
@@ -93,7 +91,7 @@ function TaskForm({
         },
     ];
 
-    // Update the form when the initial task data becomes available.
+    // Update the form when initial task data becomes available
     useEffect(() => {
         setTitle(initialValues.title ?? "");
         setDescription(initialValues.description ?? "");
@@ -106,6 +104,8 @@ function TaskForm({
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        if (isSubmitting) return;
 
         const trimmedTitle = title.trim();
         const trimmedDescription = description.trim();
@@ -122,11 +122,11 @@ function TaskForm({
     return (
         <div className="flex w-full max-w-[440px] flex-col items-center gap-1">
             <div className="rounded-full bg-blue-100 p-2 text-blue-600">
-                {submitLabel === 'Create Task'
+                {submitLabel.includes('Create')
                     ? <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        width="40"
-                        height="40"
+                        width="36"
+                        height="36"
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="#2563EB"
@@ -144,8 +144,8 @@ function TaskForm({
                     </svg>
                     : <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
+                        width="24"
+                        height="24"
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
@@ -154,20 +154,20 @@ function TaskForm({
                         strokeLinejoin="round"
                         aria-hidden="true"
                     >
-                        <path d="M12 22c4.4 0 8-3.6 8-8 0-3-1.5-5.2-4-7.5-.2 2-1.2 3.2-2.5 4C13.5 6.5 11 3.5 8 2c.5 4-1 6-3 8.5C3.8 12 4 13.3 4 14c0 4.4 3.6 8 8 8Z" />
-                        <path d="M12 22c2 0 3.5-1.6 3.5-3.5 0-1.5-.8-2.5-2-3.5-.2 1.2-.8 1.8-1.5 2.2-.3-1.5-1.2-2.5-2.5-3.2.2 2-1 3-1 4.5C8.5 20.4 10 22 12 22Z" />
+                        <path d="M12 20h9" />
+                        <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L8 18l-4 1 1-4Z" />
                     </svg>
                 }
             </div>
 
             <h3 className="mt-2 text-2xl font-bold text-gray-800">
-                {submitLabel === "Create Task"
+                {submitLabel.includes("Create")
                     ? "Create New Task"
                     : "Edit Task"}
             </h3>
 
             <p className="text-center text-sm font-semibold text-gray-500">
-                {submitLabel === "Create Task"
+                {submitLabel.includes("Create")
                     ? "Add a new task to keep your work organized and stay productive."
                     : "Update your task details and save your changes."}
             </p>
@@ -196,11 +196,12 @@ function TaskForm({
                             id="taskTitle"
                             type="text"
                             value={title}
+                            disabled={isSubmitting}
                             onChange={(e) => setTitle(e.target.value)}
                             placeholder="Enter your task title"
                             maxLength={100}
                             required
-                            className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none placeholder:text-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                            className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none placeholder:text-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-60"
                         />
                     </div>
 
@@ -225,6 +226,7 @@ function TaskForm({
                         <textarea
                             id="taskDescription"
                             value={description}
+                            disabled={isSubmitting}
                             onChange={(e) =>
                                 setDescription(e.target.value)
                             }
@@ -232,7 +234,7 @@ function TaskForm({
                             rows={4}
                             maxLength={500}
                             required
-                            className="w-full resize-none rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none placeholder:text-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                            className="w-full resize-none rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none placeholder:text-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-60"
                         />
                     </div>
 
@@ -258,6 +260,7 @@ function TaskForm({
                                     <button
                                         key={item.value}
                                         type="button"
+                                        disabled={isSubmitting}
                                         aria-pressed={isSelected}
                                         onClick={() =>
                                             setPriority(item.value)
@@ -265,7 +268,7 @@ function TaskForm({
                                         className={`rounded-xl border p-3 text-center transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${isSelected
                                             ? item.selected
                                             : "border-slate-200 bg-white hover:border-slate-300"
-                                            }`}
+                                            } disabled:opacity-60`}
                                     >
                                         <div className={`mb-2 flex justify-center ${isSelected
                                             ? item.color
@@ -295,9 +298,13 @@ function TaskForm({
 
                     <button
                         type="submit"
-                        className="mt-2 block w-full rounded-xl bg-blue-600 px-4 py-3 text-white hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                        disabled={isSubmitting}
+                        className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-3 font-semibold text-white transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
                     >
-                        {submitLabel}
+                        {isSubmitting && (
+                            <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                        )}
+                        <span>{submitLabel}</span>
                     </button>
                 </div>
             </form>

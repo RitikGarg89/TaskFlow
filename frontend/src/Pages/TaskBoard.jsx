@@ -1,4 +1,3 @@
-
 import { useState, useMemo, useEffect } from 'react';
 import TaskCard from '../Components/TaskCard';
 import { useNavigate } from 'react-router-dom';
@@ -55,18 +54,18 @@ function TaskBoard() {
             title: "Total Task",
             count: userTasks.length,
             borderColor: "border-blue-500",
-            icon:
-                <div className="rounded-xl bg-blue-100 p-3 text-blue-600">
+            icon: (
+                <div className="flex shrink-0 items-center justify-center rounded-lg bg-blue-100 p-1.5 text-blue-600 sm:rounded-xl sm:p-2.5 lg:p-3">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        width="32"
-                        height="32"
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
                         strokeWidth="2"
                         strokeLinecap="round"
                         strokeLinejoin="round"
+                        className="h-5 w-5 sm:h-6 sm:w-6 lg:h-7 lg:w-7"
+                        aria-hidden="true"
                     >
                         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                         <path d="M14 2v6h6" />
@@ -74,82 +73,78 @@ function TaskBoard() {
                         <path d="M8 17h8" />
                     </svg>
                 </div>
+            ),
         },
         {
             id: 2,
             title: "Pending",
-            count: userTasks.filter(
-                (task) => task.status === "pending"
-            ).length,
+            count: userTasks.filter((task) => task.status === "pending").length,
             borderColor: "border-amber-500",
-            icon:
-                <div className="rounded-xl bg-red-100 p-2 text-red-300">
+            icon: (
+                <div className="flex shrink-0 items-center justify-center rounded-lg bg-red-100 p-1.5 text-red-400 sm:rounded-xl sm:p-2.5 lg:p-3">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        width="32"
-                        height="32"
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
                         strokeWidth="2"
                         strokeLinecap="round"
                         strokeLinejoin="round"
+                        className="h-5 w-5 sm:h-6 sm:w-6 lg:h-7 lg:w-7"
                         aria-hidden="true"
                     >
                         <circle cx="12" cy="12" r="9" />
                     </svg>
                 </div>
+            ),
         },
         {
             id: 3,
             title: "In Progress",
-            count: userTasks.filter(
-                (task) => task.status === "in-progress"
-            ).length,
+            count: userTasks.filter((task) => task.status === "in-progress").length,
             borderColor: "border-yellow-500",
-            icon: <div className="rounded-xl bg-amber-100 p-2 text-amber-300">
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="32"
-                    height="32"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
-                >
-                    <circle cx="12" cy="12" r="9" />
-                    <path d="M12 7v5l3 2" />
-                </svg>
-            </div>
-        },
-        {
-            id: 4,
-            title: "Completed",
-            count: userTasks.filter(
-                (task) => task.status === "completed"
-            ).length,
-            borderColor: "border-green-500",
-            icon:
-                <div className="rounded-xl bg-green-300 p-2 text-green-600">
+            icon: (
+                <div className="flex shrink-0 items-center justify-center rounded-lg bg-amber-100 p-1.5 text-amber-500 sm:rounded-xl sm:p-2.5 lg:p-3">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        width="32"
-                        height="32"
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
                         strokeWidth="2"
                         strokeLinecap="round"
                         strokeLinejoin="round"
+                        className="h-5 w-5 sm:h-6 sm:w-6 lg:h-7 lg:w-7"
+                        aria-hidden="true"
+                    >
+                        <circle cx="12" cy="12" r="9" />
+                        <path d="M12 7v5l3 2" />
+                    </svg>
+                </div>
+            ),
+        },
+        {
+            id: 4,
+            title: "Completed",
+            count: userTasks.filter((task) => task.status === "completed").length,
+            borderColor: "border-green-500",
+            icon: (
+                <div className="flex shrink-0 items-center justify-center rounded-lg bg-green-100 p-1.5 text-green-600 sm:rounded-xl sm:p-2.5 lg:p-3">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="h-5 w-5 sm:h-6 sm:w-6 lg:h-7 lg:w-7"
                         aria-hidden="true"
                     >
                         <circle cx="12" cy="12" r="9" />
                         <path d="m7 12 3 3 7-7" />
                     </svg>
                 </div>
+            ),
         },
     ];
 
@@ -187,7 +182,6 @@ function TaskBoard() {
 
     return (
         <div className="mx-auto my-6 flex w-full min-w-0 max-w-[1440px] flex-col gap-6 px-4 sm:my-8 sm:gap-8 sm:px-6 lg:my-10 lg:gap-10 lg:px-8">
-
             {/* Greeting section */}
             <section className="min-w-0 space-y-2">
                 <p className="break-words text-sm font-semibold tracking-wide text-slate-600 sm:text-base lg:text-xl">
@@ -206,21 +200,21 @@ function TaskBoard() {
             {/* Statistics cards */}
             <section
                 aria-label="Task statistics"
-                className="grid min-w-0 grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4"
+                className="grid min-w-0 grid-cols-2 gap-2.5 sm:gap-4 lg:grid-cols-4"
             >
                 {statCards.map((card) => (
                     <div
                         key={card.id}
-                        className={`flex min-w-0 items-center gap-3 rounded-2xl border-l-8 bg-blue-50 p-3 sm:p-4 ${card.borderColor}`}
+                        className={`flex min-w-0 h-full items-center gap-2 rounded-xl border-l-4 bg-blue-50 p-2.5 shadow-2xs sm:gap-3.5 sm:rounded-2xl sm:border-l-8 sm:p-4 ${card.borderColor}`}
                     >
                         {card.icon}
 
-                        <div className="min-w-0">
-                            <p className="break-words text-sm text-slate-600 sm:text-base">
+                        <div className="min-w-0 flex-1">
+                            <p className="truncate text-xs font-medium text-slate-600 sm:text-sm lg:text-base">
                                 {card.title}
                             </p>
 
-                            <p className="text-2xl font-bold text-slate-900">
+                            <p className="mt-0.5 text-lg font-bold text-slate-900 sm:mt-1 sm:text-xl lg:text-2xl">
                                 {card.count}
                             </p>
                         </div>
@@ -230,7 +224,6 @@ function TaskBoard() {
 
             {/* Tasks section */}
             <section className="flex min-w-0 flex-col gap-5">
-
                 {/* Section heading and add button */}
                 <div className="flex min-w-0 flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
                     <h2 className="text-2xl font-semibold text-slate-900">
@@ -249,7 +242,6 @@ function TaskBoard() {
                 {/* Search and filter container */}
                 <div className="relative min-w-0 rounded-2xl bg-white p-3 shadow-card sm:p-4">
                     <div className="flex min-w-0 flex-col items-stretch gap-3 sm:flex-row sm:items-center">
-
                         {/* Search bar */}
                         <div className="relative min-w-0 flex-1">
                             <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
@@ -284,10 +276,11 @@ function TaskBoard() {
                             type="button"
                             onClick={() => setShowFilters((prev) => !prev)}
                             aria-expanded={showFilters}
-                            className={`flex shrink-0 items-center justify-center gap-2 rounded-xl border px-4 py-3 text-sm font-medium transition ${showFilters
-                                ? "border-blue-300 bg-blue-50 text-blue-600"
-                                : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
-                                }`}
+                            className={`flex shrink-0 items-center justify-center gap-2 rounded-xl border px-4 py-3 text-sm font-medium transition ${
+                                showFilters
+                                    ? "border-blue-300 bg-blue-50 text-blue-600"
+                                    : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
+                            }`}
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -315,7 +308,6 @@ function TaskBoard() {
                     {/* Filter panel */}
                     {showFilters && (
                         <div className="absolute right-0 top-full z-50 mt-2 w-80 max-w-[calc(100vw-2rem)] rounded-xl border border-slate-200 bg-white p-4 shadow-xl sm:p-5">
-
                             {/* Filter header */}
                             <div className="mb-5 flex items-center justify-between gap-3">
                                 <p className="text-lg font-semibold text-slate-800">
@@ -351,19 +343,20 @@ function TaskBoard() {
 
                                 <div className="flex flex-wrap gap-2">
                                     {[
-                                        { label: "All", value: "all", color: "blue" },
-                                        { label: "High", value: "high", color: "red" },
-                                        { label: "Medium", value: "medium", color: "amber" },
-                                        { label: "Low", value: "low", color: "green" },
+                                        { label: "All", value: "all" },
+                                        { label: "High", value: "high" },
+                                        { label: "Medium", value: "medium" },
+                                        { label: "Low", value: "low" },
                                     ].map((item) => (
                                         <button
                                             key={item.value}
                                             type="button"
                                             onClick={() => setPriority(item.value)}
-                                            className={`rounded-lg border px-3 py-2 text-sm transition ${priority === item.value
-                                                ? "border-slate-800 bg-slate-800 text-white"
-                                                : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
-                                                }`}
+                                            className={`rounded-lg border px-3 py-2 text-sm transition ${
+                                                priority === item.value
+                                                    ? "border-slate-800 bg-slate-800 text-white"
+                                                    : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
+                                            }`}
                                         >
                                             {item.label}
                                         </button>
@@ -388,10 +381,11 @@ function TaskBoard() {
                                             key={item.value}
                                             type="button"
                                             onClick={() => setStatus(item.value)}
-                                            className={`rounded-lg border px-3 py-2 text-sm transition ${status === item.value
-                                                ? "border-blue-600 bg-blue-600 text-white"
-                                                : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
-                                                }`}
+                                            className={`rounded-lg border px-3 py-2 text-sm transition ${
+                                                status === item.value
+                                                    ? "border-blue-600 bg-blue-600 text-white"
+                                                    : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
+                                            }`}
                                         >
                                             {item.label}
                                         </button>
@@ -445,21 +439,56 @@ function TaskBoard() {
                             </div>
                         ))}
                     </div>
+                ) : userTasks.length === 0 ? (
+                    /* Initial empty state when user has no tasks */
+                    <div className="rounded-2xl border border-dashed border-slate-300 bg-white px-4 py-12 text-center sm:py-16">
+                        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 text-blue-600">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="28"
+                                height="28"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                aria-hidden="true"
+                            >
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                <line x1="12" y1="11" x2="12" y2="17" />
+                                <line x1="9" y1="14" x2="15" y2="14" />
+                            </svg>
+                        </div>
+                        <h3 className="text-xl font-bold text-slate-800">
+                            No tasks yet!
+                        </h3>
+                        <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-slate-500">
+                            You haven't created any tasks yet. Start organizing your workday by adding your first task.
+                        </p>
+                        <button
+                            type="button"
+                            onClick={() => navigate("/task/add")}
+                            className="mt-5 inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700"
+                        >
+                            + Create Your First Task
+                        </button>
+                    </div>
                 ) : (
-                    /* Empty state */
+                    /* Filter empty state */
                     <div className="rounded-2xl border border-dashed border-slate-300 bg-white px-4 py-10 text-center sm:py-14">
                         <h3 className="text-lg font-semibold text-slate-800">
-                            No tasks found
+                            No matching tasks found
                         </h3>
 
                         <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-slate-500">
-                            Try another search or clear your filters to see your tasks.
+                            No tasks match your current search or filters. Try adjusting your search term or clearing active filters.
                         </p>
 
                         <button
                             type="button"
                             onClick={clearFilters}
-                            className="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700"
+                            className="mt-4 rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700"
                         >
                             Clear search and filters
                         </button>

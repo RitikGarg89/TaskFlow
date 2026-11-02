@@ -3,6 +3,7 @@ import connectDB from "./src/db/index.js";
 import { app } from "./src/app.js";
 import User from "./src/models/User.js";
 import Task from "./src/models/Task.js";
+import Contact from "./src/models/Contact.js";
 
 async function runTests() {
     console.log("=== STARTING TASKFLOW BACKEND INTEGRATION TESTS ===");
@@ -242,13 +243,49 @@ async function runTests() {
         console.assert(logoutRes.status === 200, "Logout should return 200");
         console.log("✓ Logout passed");
 
-        // Cleanup test user and tasks
+        // 14. Contact form submission
+        console.log("\n14. Testing POST /api/contact with valid data...");
+        const contactRes = await fetch(`${baseUrl}/contact`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                name: "Sarah Support Tester",
+                email: "sarah.tester@example.com",
+                subject: "Question about task prioritization",
+                message: "Hello TaskFlow team, I love the application! Can you tell me if tag filtering will be added soon?",
+            }),
+        });
+        const contactData = await contactRes.json();
+        console.assert(contactRes.status === 201, `Contact submission should return 201, got ${contactRes.status}`);
+        console.assert(contactData.success === true, "Contact submission should succeed");
+        console.assert(!!contactData.contact?.id, "Contact submission should return created contact id");
+        console.log("✓ Contact submission passed:", contactData.message);
+
+        // 15. Contact form validation rejection
+        console.log("\n15. Testing POST /api/contact validation rejection...");
+        const invalidContactRes = await fetch(`${baseUrl}/contact`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                name: "A",
+                email: "invalid-email",
+                subject: "Hi",
+                message: "Too short",
+            }),
+        });
+        const invalidContactData = await invalidContactRes.json();
+        console.assert(invalidContactRes.status === 400, "Invalid contact should return 400");
+        console.assert(invalidContactData.success === false, "Invalid contact submission should fail");
+        console.log("✓ Invalid contact properly rejected:", invalidContactData.message);
+
+        // Cleanup test user, tasks and contact message
         await User.findByIdAndDelete(userId);
         await Task.deleteMany({ userId });
+        await Contact.deleteMany({ email: "sarah.tester@example.com" });
         console.log("\n✓ Test data cleaned up successfully");
 
         console.log("\n==========================================");
-        console.log("ALL 13 BACKEND INTEGRATION TESTS PASSED!");
+        console.log("ALL 15 BACKEND INTEGRATION TESTS PASSED!");
         console.log("==========================================\n");
     } catch (err) {
         console.error("Test failed with error:", err);

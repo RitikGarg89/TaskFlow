@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -15,6 +14,8 @@ function ViewTask() {
 
     const [fetchedTask, setFetchedTask] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+    const [deleting, setDeleting] = useState(false);
 
     const task =
         tasks.find(
@@ -31,6 +32,7 @@ function ViewTask() {
     useEffect(() => {
         let isMounted = true;
         if (!task && taskId) {
+            setLoading(true);
             api.get(`/tasks/${taskId}`)
                 .then((data) => {
                     if (isMounted && data.task) {
@@ -49,8 +51,11 @@ function ViewTask() {
 
     if (loading) {
         return (
-            <div className="flex min-h-[calc(100vh-5rem)] w-full items-center justify-center">
-                <div className="text-slate-500">Loading task...</div>
+            <div className="flex min-h-[calc(100vh-10rem)] w-full items-center justify-center p-6">
+                <div className="flex flex-col items-center gap-3 text-slate-500">
+                    <div className="h-8 w-8 animate-spin rounded-full border-2 border-blue-600 border-t-transparent" />
+                    <span>Loading task...</span>
+                </div>
             </div>
         );
     }
@@ -58,13 +63,13 @@ function ViewTask() {
     // Handle invalid or missing task IDs
     if (!task) {
         return (
-            <div className="flex min-h-[calc(100vh-5rem)] w-full min-w-0 items-center justify-center px-4 py-8 sm:px-6 lg:px-8">
-                <div className="w-full max-w-md rounded-2xl border border-border bg-white p-5 shadow-card sm:p-8">
+            <div className="flex min-h-[calc(100vh-10rem)] w-full min-w-0 items-center justify-center px-4 py-8 sm:px-6 lg:px-8">
+                <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-card sm:p-8">
                     <h2 className="mb-2 text-xl font-bold text-slate-800 sm:text-2xl">
-                        Task not found
+                        Task Not Found
                     </h2>
 
-                    <p className="mb-6 text-sm leading-6 text-gray-500">
+                    <p className="mb-6 text-sm leading-6 text-slate-600">
                         This task doesn't exist or you don't have permission
                         to access it.
                     </p>
@@ -72,9 +77,9 @@ function ViewTask() {
                     <button
                         type="button"
                         onClick={() => navigate("/")}
-                        className="w-full rounded-lg bg-blue-600 px-4 py-3 font-semibold text-white transition-colors hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 sm:w-auto"
+                        className="w-full rounded-xl bg-blue-600 px-4 py-2.5 font-semibold text-white transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 sm:w-auto"
                     >
-                        Back to Home
+                        Back to Tasks
                     </button>
                 </div>
             </div>
@@ -215,14 +220,16 @@ function ViewTask() {
                     height="20"
                     viewBox="0 0 24 24"
                     fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
                     aria-hidden="true"
                 >
-                    <circle cx="12" cy="12" r="9" />
-                    <path d="m7 12 3 3 7-7" />
+                    <circle cx="12" cy="12" r="10" fill="#16A34A" />
+                    <path
+                        d="m7.5 12.5 3 3 6-6"
+                        stroke="#FFFFFF"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    />
                 </svg>
             ),
         },
@@ -233,10 +240,10 @@ function ViewTask() {
     const formattedDate =
         date && !Number.isNaN(date.getTime())
             ? date.toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-                year: "numeric",
-            })
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+              })
             : "No date";
 
     const selectedStatus =
@@ -250,12 +257,12 @@ function ViewTask() {
                 <button
                     type="button"
                     onClick={() => navigate("/")}
-                    className="flex w-fit min-w-0 items-center gap-2 text-left text-primary transition-colors hover:text-primary-hover"
+                    className="flex w-fit min-w-0 items-center gap-2 text-left font-semibold text-blue-600 transition-colors hover:text-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
+                        width="20"
+                        height="20"
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
@@ -268,7 +275,7 @@ function ViewTask() {
                         <path d="M19 12H5" />
                     </svg>
                     <span className="text-sm font-semibold sm:text-base">
-                        Back to home
+                        Back to Tasks
                     </span>
                 </button>
 
@@ -276,12 +283,12 @@ function ViewTask() {
                     <button
                         type="button"
                         onClick={() => navigate(`/task/${task.id || task._id}/edit`)}
-                        className="flex min-w-0 items-center justify-center gap-2 rounded-lg border-2 border-border bg-white px-3 py-2 text-sm transition-colors hover:bg-slate-50 sm:px-4 sm:text-base"
+                        className="flex min-w-0 items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 sm:text-base"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            width="20"
-                            height="20"
+                            width="18"
+                            height="18"
                             viewBox="0 0 24 24"
                             fill="none"
                             stroke="currentColor"
@@ -298,20 +305,13 @@ function ViewTask() {
 
                     <button
                         type="button"
-                        onClick={async () => {
-                            try {
-                                await dispatch(deleteTaskAsync(task.id || task._id)).unwrap();
-                                navigate("/");
-                            } catch (err) {
-                                console.error("Failed to delete task:", err);
-                            }
-                        }}
-                        className="flex min-w-0 items-center justify-center gap-2 rounded-lg border-2 border-red-400 bg-white px-3 py-2 text-sm text-red-500 transition-colors hover:bg-red-50 sm:px-4 sm:text-base"
+                        onClick={() => setShowDeleteConfirm(true)}
+                        className="flex min-w-0 items-center justify-center gap-2 rounded-xl border border-red-300 bg-white px-4 py-2 text-sm font-semibold text-red-600 transition hover:bg-red-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 sm:text-base"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            width="20"
-                            height="20"
+                            width="18"
+                            height="18"
                             viewBox="0 0 24 24"
                             fill="none"
                             stroke="currentColor"
@@ -332,21 +332,23 @@ function ViewTask() {
             </div>
 
             {/* Task details */}
-            <div className="flex w-full min-w-0 flex-col gap-5 rounded-xl border-2 border-border bg-white p-4 shadow-card sm:gap-6 sm:p-6 lg:p-8">
+            <div className="flex w-full min-w-0 flex-col gap-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-card sm:gap-6 sm:p-6 lg:p-8">
                 <div className="flex min-w-0 flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                     <div className="min-w-0 flex-1">
-                        <h1 className="break-words text-xl font-bold text-slate-700 sm:text-2xl lg:text-3xl">
+                        <h1 className="break-words text-2xl font-bold text-slate-900 sm:text-3xl">
                             {task.title}
                         </h1>
 
-                        <p className="mt-2 text-sm font-semibold text-gray-500">
+                        <p className="mt-2 text-sm font-medium text-slate-500">
                             Created on {formattedDate}
                         </p>
                     </div>
 
                     <div className="flex min-w-0 flex-wrap items-center gap-2 sm:flex-col sm:items-end">
                         <div
-                            className={`flex max-w-full items-center gap-2 rounded-xl px-3 py-1 ${priority[task.priority]?.color ?? priority.medium.color}`}
+                            className={`flex max-w-full items-center gap-2 rounded-xl px-3 py-1 ${
+                                priority[task.priority]?.color ?? priority.medium.color
+                            }`}
                         >
                             {priority[task.priority]?.icon ?? priority.medium.icon}
                             <span className="break-words text-sm font-medium">
@@ -365,29 +367,29 @@ function ViewTask() {
                     </div>
                 </div>
 
-                <div className="border-t-2 border-border" />
+                <div className="border-t border-slate-200" />
 
                 {/* Description */}
                 <div className="flex min-w-0 flex-col gap-2">
-                    <h2 className="text-lg font-semibold sm:text-xl">
-                        Task Detail
+                    <h2 className="text-lg font-bold text-slate-800">
+                        Task Details
                     </h2>
 
-                    <p className="min-w-0 whitespace-pre-wrap break-words text-sm leading-6 text-gray-500 sm:text-base">
+                    <p className="min-w-0 whitespace-pre-wrap break-words text-sm leading-6 text-slate-600 sm:text-base">
                         {task.description}
                     </p>
                 </div>
 
-                <div className="border-t-2 border-border" />
+                <div className="border-t border-slate-200" />
 
                 {/* Task status */}
                 <div className="flex min-w-0 flex-col gap-2">
-                    <h2 className="text-lg font-semibold sm:text-xl">
+                    <h2 className="text-lg font-bold text-slate-800">
                         Task Status
                     </h2>
 
-                    <p className="text-sm leading-6 text-gray-500 sm:text-base">
-                        Update the current status of this task.
+                    <p className="text-sm leading-6 text-slate-500 sm:text-base">
+                        Update the current lifecycle state of this task.
                     </p>
 
                     <div
@@ -422,22 +424,23 @@ function ViewTask() {
                                             setActiveStatus(prevStatus);
                                         }
                                     }}
-                                    className={`flex min-w-0 items-center gap-3 rounded-xl border p-3 text-left transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 sm:p-4 ${isSelected
-                                        ? status.selected
-                                        : "border-slate-200 bg-white hover:border-slate-300"
-                                        }`}
+                                    className={`flex min-w-0 items-center gap-3 rounded-xl border p-3 text-left transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 sm:p-4 ${
+                                        isSelected
+                                            ? status.selected
+                                            : "border-slate-200 bg-white hover:border-slate-300"
+                                    }`}
                                 >
                                     <span
-                                        className={`flex shrink-0 items-center justify-center rounded-full p-1 ${status.color}`}
+                                        className={`flex shrink-0 items-center justify-center rounded-full p-1.5 ${status.color}`}
                                     >
                                         {status.icon}
                                     </span>
 
                                     <span className="min-w-0">
-                                        <span className="block break-words font-medium">
+                                        <span className="block break-words font-semibold text-slate-800">
                                             {status.label}
                                         </span>
-                                        <span className="mt-1 block text-sm text-slate-500">
+                                        <span className="mt-0.5 block text-xs text-slate-500">
                                             {status.description}
                                         </span>
                                     </span>
@@ -448,33 +451,117 @@ function ViewTask() {
                 </div>
 
                 {/* Information message */}
-                <div className="flex min-w-0 items-start gap-2 rounded-xl border-2 border-blue-300 bg-blue-50 p-3 text-sm leading-6 sm:p-4 sm:text-base">
-                    <span className="shrink-0 text-blue-500">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="20"
-                            height="20"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="3"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            aria-hidden="true"
-                        >
-                            <circle cx="12" cy="12" r="10" />
-                            <path d="M12 16v-4" />
-                            <path d="M12 8h.01" />
-                        </svg>
-                    </span>
+                <div className="flex min-w-0 items-start gap-3 rounded-xl border border-blue-200 bg-blue-50/70 p-4 text-sm text-blue-900">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="mt-0.5 shrink-0 text-blue-600"
+                        aria-hidden="true"
+                    >
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="12" y1="16" x2="12" y2="12" />
+                        <line x1="12" y1="8" x2="12.01" y2="8" />
+                    </svg>
 
-                    <p className="min-w-0 break-words">
-                        Click the 'Edit' button to modify this task. You can
-                        also update the status or delete this task using the
-                        buttons above.
+                    <p className="min-w-0 break-words leading-relaxed">
+                        Click the <span className="font-semibold text-slate-800">Edit</span> button above to modify the title, description, or priority. You can also update the status or safely delete this task.
                     </p>
                 </div>
             </div>
+
+            {/* Delete Confirmation Modal */}
+            {showDeleteConfirm && (
+                <div
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby="delete-dialog-title"
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4 backdrop-blur-xs"
+                >
+                    <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-red-100 text-red-600">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                aria-hidden="true"
+                            >
+                                <path d="M3 6h18" />
+                                <path d="M8 6V4h8v2" />
+                                <path d="m19 6-1 14H6L5 6" />
+                                <line x1="10" y1="11" x2="10" y2="17" />
+                                <line x1="14" y1="11" x2="14" y2="17" />
+                            </svg>
+                        </div>
+
+                        <h3
+                            id="delete-dialog-title"
+                            className="mt-4 text-xl font-bold text-slate-900"
+                        >
+                            Delete this task?
+                        </h3>
+
+                        <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                            Are you sure you want to delete{" "}
+                            <span className="font-semibold text-slate-900">
+                                "{task.title}"
+                            </span>
+                            ? This action cannot be undone and will permanently remove the task.
+                        </p>
+
+                        <div className="mt-6 flex items-center justify-end gap-3">
+                            <button
+                                type="button"
+                                disabled={deleting}
+                                onClick={() => setShowDeleteConfirm(false)}
+                                className="rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:opacity-50"
+                            >
+                                Cancel
+                            </button>
+
+                            <button
+                                type="button"
+                                disabled={deleting}
+                                onClick={async () => {
+                                    setDeleting(true);
+                                    try {
+                                        await dispatch(
+                                            deleteTaskAsync(task.id || task._id)
+                                        ).unwrap();
+                                        navigate("/");
+                                    } catch (err) {
+                                        console.error("Failed to delete task:", err);
+                                        setDeleting(false);
+                                        setShowDeleteConfirm(false);
+                                    }
+                                }}
+                                className="flex items-center gap-2 rounded-xl bg-red-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-red-700 disabled:opacity-50"
+                            >
+                                {deleting ? (
+                                    <>
+                                        <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                                        <span>Deleting...</span>
+                                    </>
+                                ) : (
+                                    <span>Yes, Delete Task</span>
+                                )}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

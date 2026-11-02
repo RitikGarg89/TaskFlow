@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchTasks } from "../Features/TaskSlice";
 
@@ -30,13 +30,13 @@ function ProfileDashBoard() {
     ).length;
 
     return (
-        <div className="shadow-card flex w-[640px] min-w-[440px] flex-col gap-3 rounded-2xl bg-white p-5">
+        <div className="shadow-card flex w-full max-w-[640px] min-w-0 flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-5 sm:p-6">
             <div className="flex items-center gap-4">
-                <div className="rounded-full bg-blue-100 p-2 text-blue-600">
+                <div className="rounded-xl bg-blue-100 p-2.5 text-blue-600">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        width="32"
-                        height="32"
+                        width="28"
+                        height="28"
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
@@ -50,19 +50,20 @@ function ProfileDashBoard() {
                     </svg>
                 </div>
                 <div>
-                    <p className="font-bold">Task Overview</p>
-                    <p className="text-sm text-muted">
-                        Here's a summary of your tasks
+                    <p className="text-lg font-bold text-slate-900">Task Overview</p>
+                    <p className="text-sm text-slate-500">
+                        Summary of your personal tasks
                     </p>
                 </div>
             </div>
-            <div className="grid grid-cols-2 gap-3">
-                <div className="flex items-center gap-2 rounded-2xl bg-blue-50 p-2">
-                    <div className="rounded-xl bg-blue-100 p-3 text-blue-600">
+
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <div className="flex items-center gap-3 rounded-2xl bg-blue-50 p-3 sm:p-4">
+                    <div className="rounded-xl bg-blue-100 p-2.5 text-blue-600">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            width="32"
-                            height="32"
+                            width="24"
+                            height="24"
                             viewBox="0 0 24 24"
                             fill="none"
                             stroke="currentColor"
@@ -77,18 +78,19 @@ function ProfileDashBoard() {
                         </svg>
                     </div>
                     <div>
-                        <p className="text-sm text-slate-600">Total Tasks</p>
-                        <p className="text-xl font-bold text-slate-900">
+                        <p className="text-xs font-semibold text-slate-600 sm:text-sm">Total Tasks</p>
+                        <p className="text-xl font-bold text-slate-900 sm:text-2xl">
                             {totalTasks}
                         </p>
                     </div>
                 </div>
-                <div className="flex items-center gap-2 rounded-2xl bg-green-100 p-2">
-                    <div className="rounded-xl bg-green-300 p-2 text-green-700">
+
+                <div className="flex items-center gap-3 rounded-2xl bg-emerald-50 p-3 sm:p-4">
+                    <div className="rounded-xl bg-emerald-100 p-2.5 text-emerald-600">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            width="32"
-                            height="32"
+                            width="24"
+                            height="24"
                             viewBox="0 0 24 24"
                             fill="none"
                             stroke="currentColor"
@@ -102,18 +104,19 @@ function ProfileDashBoard() {
                         </svg>
                     </div>
                     <div>
-                        <p className="text-sm text-slate-600">Completed Tasks</p>
-                        <p className="text-xl font-bold text-slate-900">
+                        <p className="text-xs font-semibold text-slate-600 sm:text-sm">Completed Tasks</p>
+                        <p className="text-xl font-bold text-slate-900 sm:text-2xl">
                             {completedTasks}
                         </p>
                     </div>
                 </div>
-                <div className="flex items-center gap-2 rounded-2xl bg-amber-50 p-2">
-                    <div className="rounded-xl bg-amber-100 p-2 text-amber-600">
+
+                <div className="flex items-center gap-3 rounded-2xl bg-amber-50 p-3 sm:p-4">
+                    <div className="rounded-xl bg-amber-100 p-2.5 text-amber-600">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            width="32"
-                            height="32"
+                            width="24"
+                            height="24"
                             viewBox="0 0 24 24"
                             fill="none"
                             stroke="currentColor"
@@ -127,20 +130,21 @@ function ProfileDashBoard() {
                         </svg>
                     </div>
                     <div>
-                        <p className="text-sm text-slate-600">
+                        <p className="text-xs font-semibold text-slate-600 sm:text-sm">
                             In Progress Tasks
                         </p>
-                        <p className="text-xl font-bold text-slate-900">
+                        <p className="text-xl font-bold text-slate-900 sm:text-2xl">
                             {inProgressTasks}
                         </p>
                     </div>
                 </div>
-                <div className="flex items-center gap-2 rounded-2xl bg-red-50 p-2">
-                    <div className="rounded-xl bg-red-100 p-2 text-red-500">
+
+                <div className="flex items-center gap-3 rounded-2xl bg-red-50 p-3 sm:p-4">
+                    <div className="rounded-xl bg-red-100 p-2.5 text-red-500">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            width="32"
-                            height="32"
+                            width="24"
+                            height="24"
                             viewBox="0 0 24 24"
                             fill="none"
                             stroke="currentColor"
@@ -153,8 +157,8 @@ function ProfileDashBoard() {
                         </svg>
                     </div>
                     <div>
-                        <p className="text-sm text-slate-600">Pending Tasks</p>
-                        <p className="text-xl font-bold text-slate-900">
+                        <p className="text-xs font-semibold text-slate-600 sm:text-sm">Pending Tasks</p>
+                        <p className="text-xl font-bold text-slate-900 sm:text-2xl">
                             {pendingTasks}
                         </p>
                     </div>

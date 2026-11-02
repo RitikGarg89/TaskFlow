@@ -1,14 +1,11 @@
-
-import React from 'react';
+import { Link } from "react-router-dom";
 import heroImage from "../assets/Hero.svg";
 
 function HeroSection() {
     return (
         <div className="flex w-full min-w-0 flex-col items-center justify-between gap-10 md:flex-row md:gap-8 lg:gap-12">
-
             {/* Left side */}
             <div className="flex w-full min-w-0 flex-col gap-6 md:w-1/2">
-
                 <div className="flex flex-col gap-2">
                     <p className="w-fit rounded-2xl bg-blue-100 px-2 py-1 text-sm font-bold text-blue-500">
                         Get more done
@@ -29,19 +26,19 @@ function HeroSection() {
 
                 {/* Action buttons */}
                 <div className="flex flex-col gap-3 min-[420px]:flex-row">
-                    <button
-                        type="button"
-                        className="w-full rounded-lg bg-blue-500 px-5 py-3 text-base font-semibold text-white shadow-md transition-colors duration-200 hover:bg-blue-600 min-[420px]:w-auto sm:px-6 sm:text-lg"
+                    <Link
+                        to="/register"
+                        className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-5 py-3 text-base font-semibold text-white shadow-md transition-colors duration-200 hover:bg-blue-700 min-[420px]:w-auto sm:px-6 sm:text-lg"
                     >
                         Get Started
-                    </button>
+                    </Link>
 
-                    <button
-                        type="button"
-                        className="w-full rounded-lg border-2 border-blue-500 bg-transparent px-5 py-3 text-base font-semibold text-blue-500 shadow-md transition-colors duration-200 hover:bg-blue-50 min-[420px]:w-auto sm:px-6 sm:text-lg"
+                    <Link
+                        to="/about"
+                        className="inline-flex items-center justify-center rounded-lg border-2 border-blue-500 bg-transparent px-5 py-3 text-base font-semibold text-blue-600 shadow-sm transition-colors duration-200 hover:bg-blue-50 min-[420px]:w-auto sm:px-6 sm:text-lg"
                     >
                         Learn more
-                    </button>
+                    </Link>
                 </div>
 
                 {/* Benefits */}
@@ -61,7 +58,7 @@ function HeroSection() {
             </div>
 
             {/* Right side */}
-            <div className="flex w-full min-w-0 items-center justify-center md:w-1/2 md:order-">
+            <div className="flex w-full min-w-0 items-center justify-center md:w-1/2">
                 <img
                     src={heroImage}
                     alt="TaskFlow task management dashboard illustration"

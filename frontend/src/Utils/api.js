@@ -31,6 +31,12 @@ export const clearToken = () => {
     }
 };
 
+let onUnauthorizedCallback = null;
+
+export const setUnauthorizedCallback = (callback) => {
+    onUnauthorizedCallback = callback;
+};
+
 async function apiFetch(endpoint, options = {}) {
     const url = endpoint.startsWith("http")
         ? endpoint
@@ -66,6 +72,18 @@ async function apiFetch(endpoint, options = {}) {
     }
 
     if (!response.ok) {
+        if (
+            response.status === 401 &&
+            !url.includes("/auth/login") &&
+            !url.includes("/auth/register") &&
+            !url.includes("/auth/me")
+        ) {
+            clearToken();
+            if (typeof onUnauthorizedCallback === "function") {
+                onUnauthorizedCallback();
+            }
+        }
+
         const error = new Error(
             data.message || `Request failed with status ${response.status}`
         );
