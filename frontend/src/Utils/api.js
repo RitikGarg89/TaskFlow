@@ -1,7 +1,7 @@
 const rawApiUrl =
     import.meta.env.VITE_API_URL ||
     import.meta.env.API_URL ||
-    "http://localhost:8000/api";
+    "https://taskflow-482b.onrender.com/api";
 
 const API_BASE_URL = rawApiUrl.endsWith("/api")
     ? rawApiUrl
